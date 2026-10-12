@@ -1,6 +1,6 @@
 {
   "calculation": {"timeframe": "1D","length": 20,"standard_deviations": 2.0,"reentry_margin": 0.003},
-  "groups": {"holding": "현재 보유","swing": "스윙 포트폴리오","value": "2027년 6월까지 가치추적"},
+  "groups": {"holding": "현재 보유","swing": "스윙","value": "2027년 가치추적"},
   "symbols": [
     {"symbol": "005930","name": "삼성전자","market": "KR","groups": ["holding","swing","value"]},
     {"symbol": "000660","name": "SK하이닉스","market": "KR","groups": ["holding","value"]},
