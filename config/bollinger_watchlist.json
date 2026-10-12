@@ -12,28 +12,19 @@
   },
   "symbols": [
     {"symbol": "005930", "name": "삼성전자", "market": "KR", "groups": ["holding", "swing", "value"]},
-    {"symbol": "003490", "name": "대한항공", "market": "KR", "groups": ["holding", "swing"]},
-    {"symbol": "006400", "name": "삼성SDI", "market": "KR", "groups": ["holding", "swing"]},
     {"symbol": "000660", "name": "SK하이닉스", "market": "KR", "groups": ["holding", "value"]},
-    {"symbol": "001510", "name": "SK증권", "market": "KR", "groups": ["holding"]},
-    {"symbol": "005180", "name": "빙그레", "market": "KR", "groups": ["holding"]},
-    {"symbol": "005935", "name": "삼성전자우", "market": "KR", "groups": ["holding"]},
-    {"symbol": "035420", "name": "NAVER", "market": "KR", "groups": ["value"]},
-    {"symbol": "034020", "name": "두산에너빌리티", "market": "KR", "groups": ["value"]},
-    {"symbol": "AMD", "name": "AMD", "market": "US", "groups": ["holding", "swing", "value"]},
-    {"symbol": "AMZN", "name": "아마존", "market": "US", "groups": ["holding", "swing", "value"]},
-    {"symbol": "MU", "name": "마이크론", "market": "US", "groups": ["holding", "swing", "value"]},
+    {"symbol": "003490", "name": "대한항공", "market": "KR", "groups": ["holding"]},
+    {"symbol": "006400", "name": "삼성SDI", "market": "KR", "groups": ["holding"]},
+
     {"symbol": "NVDA", "name": "엔비디아", "market": "US", "groups": ["holding", "swing", "value"]},
-    {"symbol": "COST", "name": "코스트코", "market": "US", "groups": ["holding", "value"]},
-    {"symbol": "SKHY", "name": "SK하이닉스 ADR", "market": "US", "groups": ["holding", "value"]},
-    {"symbol": "CRCL", "name": "서클", "market": "US", "groups": ["holding"]},
-    {"symbol": "SNDK", "name": "샌디스크", "market": "US", "groups": ["holding"]},
+    {"symbol": "MSFT", "name": "마이크로소프트", "market": "US", "groups": ["holding", "value"]},
+    {"symbol": "AAPL", "name": "애플", "market": "US", "groups": ["value"]},
     {"symbol": "GOOGL", "name": "알파벳", "market": "US", "groups": ["value"]},
-    {"symbol": "MSFT", "name": "마이크로소프트", "market": "US", "groups": ["value"]},
-    {"symbol": "TSM", "name": "TSMC", "market": "US", "groups": ["value"]},
+    {"symbol": "AMZN", "name": "아마존", "market": "US", "groups": ["holding", "value"]},
+    {"symbol": "META", "name": "메타", "market": "US", "groups": ["holding", "value"]},
+    {"symbol": "TSLA", "name": "테슬라", "market": "US", "groups": ["value"]},
     {"symbol": "AVGO", "name": "브로드컴", "market": "US", "groups": ["value"]},
-    {"symbol": "ASML", "name": "ASML", "market": "US", "groups": ["value"]},
-    {"symbol": "VRT", "name": "버티브", "market": "US", "groups": ["value"]},
-    {"symbol": "PANW", "name": "팔로알토 네트웍스", "market": "US", "groups": ["value"]}
+    {"symbol": "BRK.B", "name": "버크셔", "market": "US", "groups": ["value"]},
+    {"symbol": "TSM", "name": "TSMC", "market": "US", "groups": ["value"]}
   ]
 }
