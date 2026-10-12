@@ -1,43 +1,54 @@
-# main.py - 퀀트 조건 추가
-import os
+# main.py - 퀀트 조건 최종 (1억, 2만주, 마감예상)
+import os, argparse
 from monitoring.auth import get_token
 from monitoring.market_data import fetch_realtime_tick
 
-def quant_filter(ticks):
+def quant_filter(code, ticks):
     alerts = []
-    for t in ticks[-20:]: # 최근 20틱만 검사
-        vol = t.get("cntg_vol", 0)
-        price = t.get("stck_prpr", 0)
+    for t in ticks[-30:]:
+        try:
+            vol = int(str(t.get("cntg_vol",0)).replace(",","") or 0)
+            price = int(str(t.get("stck_prpr",0)).replace(",","") or 0)
+        except:
+            continue
         amount = vol * price
         hour = t.get("bsop_hour","")
 
-        # 조건 1: 2만주 이상
-        # 조건 2: 1억 이상
+        # 1. 2만주 / 2. 1억 이상
         if vol >= 20000 or amount >= 100_000_000:
-            alerts.append(f"{t['shrn_iscd']} {hour} 대량 {vol}주 {amount/1e8:.1f}억 @ {price}")
+            alerts.append(f"[{code}] {hour} 대량 {vol}주 {amount/1e8:.1f}억 @{price}")
 
-        # 조건 3: 마감 예상종가 (15:20 이후)
-        if hour >= "15:20:00":
-            # 예상가 필드가 따로 있으면 교체: t.get("antc_prpr")
-            alerts.append(f"{t['shrn_iscd']} 마감예상 현재 {price} {hour}")
+        # 3. 마감 예상 15:20 이후
+        if hour >= "15:20:00" or hour >= "152000":
+            alerts.append(f"[{code}] 마감예상 현재 {price} {hour}")
 
     return alerts
 
-# --- 실행부 ---
-token = get_token() # 네가 준 appkey, appsecretkey, client_credentials, oob로 발급
-print(f"TOKEN OK expires 24h")
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--minutes", type=int, default=10)
+    args = parser.parse_args()
 
-# 고정 3개 말고 -> 거래대금 상위 + 네 보유종목 섞어서 100개 스캔
-codes = ["005930","000660","005940","247540","066570","403870","042660"] # 여기에 100개 넣을 예정
-all_msgs = []
+    token = get_token()
+    print(f"TOKEN OK")
 
-for code in codes:
-    ticks = fetch_realtime_tick(code) # 네가 준 Input_0 {iem_cd: "005940"} 방식
-    if ticks:
-        all_msgs += quant_filter(ticks)
+    # 맨날 같은 종목 문제 해결 - 여기 100개로 늘리기
+    codes = ["005930","000660","005940","247540","066570","403870","042660","293490","011200","475150","042700","028300","130660"]
 
-if all_msgs:
+    all_alerts = []
+    for code in codes:
+        ticks = fetch_realtime_tick(code)
+        if ticks:
+            all_alerts += quant_filter(code, ticks)
+
     os.makedirs("output", exist_ok=True)
+    if not all_alerts:
+        all_alerts = [f"정상 스캔 {len(codes)}종목 특이체결 없음"]
+
     with open("output/summary.txt","w",encoding="utf-8") as f:
-        f.write("\n".join(all_msgs))
-    print("\n".join(all_msgs))
+        f.write("\n".join(all_alerts))
+
+    print("\n".join(all_alerts))
+
+if __name__ == "__main__":
+    main()
