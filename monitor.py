@@ -100,12 +100,15 @@ async def subscribe(ws, codes, token):
             }
         }
 
-        await ws.send(json.dumps(req, ensure_ascii=False))
+        try:
+            await ws.send(json.dumps(req, ensure_ascii=False))
+        except (ConnectionClosed, ConnectionClosedError, ConnectionResetError, OSError):
+            raise
+
         await asyncio.sleep(0.12)
 
 
 async def monitor(codes, seconds=600, max_retries=5):
-
     init_db()
 
     if not codes:
@@ -113,30 +116,20 @@ async def monitor(codes, seconds=600, max_retries=5):
         return
 
     loop = asyncio.get_running_loop()
-
     end_time = loop.time() + seconds
-
     foreign_state = AlertState()
-
     retry_count = 0
 
     print(f"[시작] {len(codes)}종목 / {seconds}초")
 
     while loop.time() < end_time:
-
         try:
-
             token = token_value()
-
             if not token:
                 raise RuntimeError("access token을 가져오지 못했습니다.")
 
             remaining = int(end_time - loop.time())
-
-            print(
-                f"[WebSocket 연결] "
-                f"남은 감시시간={remaining}초"
-            )
+            print(f"[WebSocket 연결] 남은 감시시간={remaining}초")
 
             async with websockets.connect(
                 WS_URL,
@@ -145,34 +138,23 @@ async def monitor(codes, seconds=600, max_retries=5):
                 close_timeout=5,
                 open_timeout=20,
             ) as ws:
-
                 await subscribe(ws, codes, token)
-
                 retry_count = 0
-
-                print(
-                    f"[구독 완료] "
-                    f"{len(codes)}종목"
-                )
+                print(f"[구독 완료] {len(codes)}종목")
 
                 while loop.time() < end_time:
-
                     remaining = end_time - loop.time()
-
                     if remaining <= 0:
                         break
 
-                    timeout = min(5, max(0.1, remaining))
+                    timeout = min(5, max(0.5, remaining))
 
                     try:
-
-                        raw = await asyncio.wait_for(
-                            ws.recv(),
-                            timeout=timeout
-                        )
-
+                        raw = await asyncio.wait_for(ws.recv(), timeout=timeout)
                     except asyncio.TimeoutError:
                         continue
+                    except (ConnectionClosed, ConnectionClosedError, ConnectionResetError, OSError):
+                        raise
 
                     try:
                         msg = json.loads(raw)
@@ -180,30 +162,19 @@ async def monitor(codes, seconds=600, max_retries=5):
                         continue
 
                     body = msg.get("body")
-
                     if not isinstance(body, dict):
                         continue
-
                     if "N_soonmaesu" not in body:
                         continue
 
                     save(body)
 
                     try:
-                        foreign_net = int(
-                            float(
-                                body.get(
-                                    "N_soonmaesu",
-                                    0
-                                ) or 0
-                            )
-                        )
+                        foreign_net = int(float((body.get("N_soonmaesu", 0) or 0)))
                     except Exception:
                         foreign_net = 0
 
-                    previous_foreign_net = (
-                        foreign_state.last_foreign_net
-                    )
+                    previous_foreign_net = foreign_state.last_foreign_net
 
                     if process_foreign_net_buy_alert(
                         foreign_state,
@@ -212,30 +183,20 @@ async def monitor(codes, seconds=600, max_retries=5):
                         threshold=500,
                         ratio_threshold=1.5,
                     ):
-
                         issue_text = (
-                            f"종목: "
-                            f"{body.get('hname', body.get('code', ''))}\n"
+                            f"종목: {body.get('hname', body.get('code', ''))}\n"
                             f"코드: {body.get('code', '')}\n"
                             f"외국계 순매수: {foreign_net:,}주\n"
-                            f"직전 반영값: "
-                            f"{previous_foreign_net:,}주\n"
-                            f"수집시각: "
-                            f"{datetime.now().isoformat(timespec='seconds')}"
+                            f"직전 반영값: {previous_foreign_net:,}주\n"
+                            f"수집시각: {datetime.now().isoformat(timespec='seconds')}"
                         )
-
-                        emit_alert(
-                            "외국계 순매수 급증",
-                            issue_text
-                        )
+                        emit_alert("외국계 순매수 급증", issue_text)
 
                     print(
                         f"[{body.get('time', '')}] "
                         f"{body.get('hname', body.get('code', ''))} "
-                        f"외국계순매수="
-                        f"{body.get('N_soonmaesu')} "
-                        f"변화="
-                        f"{body.get('N_soonmaecha')}"
+                        f"외국계순매수={body.get('N_soonmaesu')} "
+                        f"변화={body.get('N_soonmaecha')}"
                     )
 
         except (
@@ -245,53 +206,21 @@ async def monitor(codes, seconds=600, max_retries=5):
             OSError,
             asyncio.TimeoutError,
         ) as e:
-
             retry_count += 1
 
             if loop.time() >= end_time:
                 break
 
             if retry_count > max_retries:
-
-                print(
-                    f"[실패] WebSocket 복구 실패 "
-                    f"{max_retries}회 초과"
-                )
-
+                print(f"[실패] WebSocket 복구 실패 {max_retries}회 초과")
                 raise
 
-            wait_time = min(
-                2 ** (retry_count - 1),
-                16
-            )
+            wait_time = min(2 ** (retry_count - 1), 16)
+            remaining = int(max(0, end_time - loop.time()))
 
-            remaining = int(
-                max(
-                    0,
-                    end_time - loop.time()
-                )
-            )
+            print(f"[재연결] {type(e).__name__}: {e}")
+            print(f"[재연결] 서버 종료 감지, 토큰 재발급 후 재연결 / {retry_count}/{max_retries} {wait_time}초 후 재시도 / 남은시간 {remaining}초")
 
-            print(
-                f"[재연결] "
-                f"{type(e).__name__}: {e}"
-            )
-
-            print(
-                f"[재연결] "
-                f"{retry_count}/{max_retries} "
-                f"{wait_time}초 후 재시도 "
-                f"/ 남은시간 {remaining}초"
-            )
-
-            await asyncio.sleep(
-                min(
-                    wait_time,
-                    max(
-                        0,
-                        end_time - loop.time()
-                    )
-                )
-            )
+            await asyncio.sleep(min(wait_time, max(1, int(end_time - loop.time()))))
 
     print("[종료] 실시간 수급 수집 완료")
