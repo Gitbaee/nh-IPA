@@ -1,14 +1,12 @@
-
 name: NH PLUG Morning Monitor
 
 on:
   workflow_dispatch:
-
   schedule:
-    # 한국 월~금 08:00 = UTC 전날 23:00
     - cron: "0 23 * * 0-4"
-    # 한국 월~금 09:00 = UTC 00:00
     - cron: "0 0 * * 1-5"
+    - cron: "0,30 0-6 * * 1-5"
+    - cron: "20,25 6 * * 1-5"
 
 permissions:
   contents: read
@@ -18,7 +16,6 @@ jobs:
   monitor:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -26,30 +23,24 @@ jobs:
           python-version: "3.12"
       - name: Install
         run: pip install -r requirements.txt
-      - name: Diagnose NH credentials
-        env:
-          NH_APP_KEY: ${{ secrets.NH_APP_KEY }}
-          NH_APP_SECRET: ${{ secrets.NH_APP_SECRET }}
-        run: |
-          printf 'NH_APP_KEY present: %s, length: %s (expected 32)\n' \
-            "$([[ -n "$NH_APP_KEY" ]] && echo true || echo false)" "${#NH_APP_KEY}"
-          printf 'NH_APP_SECRET present: %s, length: %s (expected 44)\n' \
-            "$([[ -n "$NH_APP_SECRET" ]] && echo true || echo false)" "${#NH_APP_SECRET}"
       - name: Run monitor
         env:
           NH_APP_KEY: ${{ secrets.NH_APP_KEY }}
           NH_APP_SECRET: ${{ secrets.NH_APP_SECRET }}
         run: python main.py --minutes 10
       - name: Upload Excel
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: nh-market-report-${{ github.run_id }}
-          path: output/투자_실시간수급_매매일지.xlsx
-      - name: Create GitHub notification issue
+          path: |
+            output/투자_실시간수급_매매일지.xlsx
+            output/summary.txt
+      - name: Create issue
+        if: always()
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh issue create \
-            --title "NH PLUG 수급 브리핑 $(date +'%Y-%m-%d %H:%M UTC')" \
-            --body-file output/summary.txt \
-            --assignee sknixbot
+          if [ -f output/summary.txt ]; then
+            gh issue create --title "NH PLUG 브리핑 $(date +'%Y-%m-%d %H:%M KST')" --body-file output/summary.txt --label alert
+          fi
