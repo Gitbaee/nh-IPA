@@ -89,3 +89,4 @@ if __name__ == "__main__":
     print("Namuh PLUG 인증 성공")
     print("token_type:", result.get("token_type"))
     print("expires_in:", result.get("expires_in"))
+    get_token = get_access_token
