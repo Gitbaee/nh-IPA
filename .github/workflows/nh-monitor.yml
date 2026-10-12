@@ -1,46 +1,30 @@
-name: NH PLUG Morning Monitor
+{
+  "calculation": {
+    "timeframe": "1D",
+    "length": 20,
+    "standard_deviations": 2.0,
+    "reentry_margin": 0.003
+  },
+  "groups": {
+    "holding": "현재 보유",
+    "swing": "스윙 포트폴리오",
+    "value": "2027년 6월까지 가치추적"
+  },
+  "symbols": [
+    {"symbol": "005930", "name": "삼성전자", "market": "KR", "groups": ["holding", "swing", "value"]},
+    {"symbol": "000660", "name": "SK하이닉스", "market": "KR", "groups": ["holding", "value"]},
+    {"symbol": "003490", "name": "대한항공", "market": "KR", "groups": ["holding"]},
+    {"symbol": "006400", "name": "삼성SDI", "market": "KR", "groups": ["holding"]},
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 23 * * 0-4"
-    - cron: "0 0 * * 1-5"
-    - cron: "0,30 0-6 * * 1-5"
-    - cron: "20,25 6 * * 1-5"
-
-permissions:
-  contents: read
-  issues: write
-
-jobs:
-  monitor:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Install
-        run: pip install -r requirements.txt
-      - name: Run monitor
-        env:
-          NH_APP_KEY: ${{ secrets.NH_APP_KEY }}
-          NH_APP_SECRET: ${{ secrets.NH_APP_SECRET }}
-        run: python main.py --minutes 10
-      - name: Upload Excel
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: nh-market-report-${{ github.run_id }}
-          path: |
-            output/투자_실시간수급_매매일지.xlsx
-            output/summary.txt
-      - name: Create issue
-        if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          if [ -f output/summary.txt ]; then
-            gh issue create --title "NH PLUG 브리핑 $(date +'%Y-%m-%d %H:%M KST')" --body-file output/summary.txt --label alert
-          fi
+    {"symbol": "NVDA", "name": "엔비디아", "market": "US", "groups": ["holding", "swing", "value"]},
+    {"symbol": "MSFT", "name": "마이크로소프트", "market": "US", "groups": ["holding", "value"]},
+    {"symbol": "AAPL", "name": "애플", "market": "US", "groups": ["value"]},
+    {"symbol": "GOOGL", "name": "알파벳", "market": "US", "groups": ["value"]},
+    {"symbol": "AMZN", "name": "아마존", "market": "US", "groups": ["holding", "value"]},
+    {"symbol": "META", "name": "메타", "market": "US", "groups": ["holding", "value"]},
+    {"symbol": "TSLA", "name": "테슬라", "market": "US", "groups": ["value"]},
+    {"symbol": "AVGO", "name": "브로드컴", "market": "US", "groups": ["value"]},
+    {"symbol": "BRK.B", "name": "버크셔", "market": "US", "groups": ["value"]},
+    {"symbol": "TSM", "name": "TSMC", "market": "US", "groups": ["value"]}
+  ]
+}
