@@ -1,30 +1,20 @@
 {
-  "calculation": {
-    "timeframe": "1D",
-    "length": 20,
-    "standard_deviations": 2.0,
-    "reentry_margin": 0.003
-  },
-  "groups": {
-    "holding": "현재 보유",
-    "swing": "스윙 포트폴리오",
-    "value": "2027년 6월까지 가치추적"
-  },
+  "calculation": {"timeframe": "1D","length": 20,"standard_deviations": 2.0,"reentry_margin": 0.003},
+  "groups": {"holding": "현재 보유","swing": "스윙","value": "2027년 가치추적"},
   "symbols": [
-    {"symbol": "005930", "name": "삼성전자", "market": "KR", "groups": ["holding", "swing", "value"]},
-    {"symbol": "000660", "name": "SK하이닉스", "market": "KR", "groups": ["holding", "value"]},
-    {"symbol": "003490", "name": "대한항공", "market": "KR", "groups": ["holding"]},
-    {"symbol": "006400", "name": "삼성SDI", "market": "KR", "groups": ["holding"]},
-
-    {"symbol": "NVDA", "name": "엔비디아", "market": "US", "groups": ["holding", "swing", "value"]},
-    {"symbol": "MSFT", "name": "마이크로소프트", "market": "US", "groups": ["holding", "value"]},
-    {"symbol": "AAPL", "name": "애플", "market": "US", "groups": ["value"]},
-    {"symbol": "GOOGL", "name": "알파벳", "market": "US", "groups": ["value"]},
-    {"symbol": "AMZN", "name": "아마존", "market": "US", "groups": ["holding", "value"]},
-    {"symbol": "META", "name": "메타", "market": "US", "groups": ["holding", "value"]},
-    {"symbol": "TSLA", "name": "테슬라", "market": "US", "groups": ["value"]},
-    {"symbol": "AVGO", "name": "브로드컴", "market": "US", "groups": ["value"]},
-    {"symbol": "BRK.B", "name": "버크셔", "market": "US", "groups": ["value"]},
-    {"symbol": "TSM", "name": "TSMC", "market": "US", "groups": ["value"]}
+    {"symbol": "005930","name": "삼성전자","market": "KR","groups": ["holding","swing","value"]},
+    {"symbol": "000660","name": "SK하이닉스","market": "KR","groups": ["holding","value"]},
+    {"symbol": "003490","name": "대한항공","market": "KR","groups": ["holding"]},
+    {"symbol": "006400","name": "삼성SDI","market": "KR","groups": ["holding"]},
+    {"symbol": "NVDA","name": "엔비디아","market": "US","groups": ["holding","swing","value"]},
+    {"symbol": "MSFT","name": "마이크로소프트","market": "US","groups": ["holding","value"]},
+    {"symbol": "AAPL","name": "애플","market": "US","groups": ["value"]},
+    {"symbol": "GOOGL","name": "알파벳","market": "US","groups": ["value"]},
+    {"symbol": "AMZN","name": "아마존","market": "US","groups": ["holding","value"]},
+    {"symbol": "META","name": "메타","market": "US","groups": ["holding","value"]},
+    {"symbol": "TSLA","name": "테슬라","market": "US","groups": ["value"]},
+    {"symbol": "AVGO","name": "브로드컴","market": "US","groups": ["value"]},
+    {"symbol": "BRK.B","name": "버크셔","market": "US","groups": ["value"]},
+    {"symbol": "TSM","name": "TSMC","market": "US","groups": ["value"]}
   ]
 }
