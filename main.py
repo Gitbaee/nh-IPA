@@ -1,8 +1,7 @@
 # main.py - 퀀트 조건 최종 (1억, 2만주, 마감예상)
 import os, argparse
 from auth import get_token
-from monitoring.market_data import fetch_realtime_tick
-
+from market_data import fetch_realtime_tick
 def quant_filter(code, ticks):
     alerts = []
     for t in ticks[-30:]:
