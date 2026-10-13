@@ -4,3 +4,6 @@ keyring
 keyrings.alt
 websockets
 openpyxl
+yfinance
+pandas
+requests
