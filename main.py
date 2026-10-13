@@ -1,6 +1,14 @@
-# main.py - 퀀트 조건 최종 (1억, 2만주, 마감예상) + 볼린저 통합
+# main.py - 퀀트 조건 최종 (1억, 2만주, 마감예상) + 볼린저 통합 - FIXED
 import os, json, argparse
-from auth import get_token
+
+def get_token_safe():
+    try:
+        from auth import get_token
+        return get_token()
+    except Exception as e:
+        print(f"TOKEN SKIP/FAIL: {e}")
+        return None
+
 try:
     from market_data import fetch_realtime_tick
 except:
@@ -16,43 +24,69 @@ def quant_filter(code, ticks):
             continue
         amount = vol * price
         hour = str(t.get("bsop_hour",""))
-
         if vol >= 20000 or amount >= 100_000_000:
             alerts.append(f"[{code}] {hour} 대량 {vol}주 {amount/1e8:.1f}억 @{price}")
-
         if hour >= "15:20:00" or hour >= "152000":
             alerts.append(f"[{code}] 마감예상 현재 {price} {hour}")
     return alerts
 
 def load_watchlist():
-    # config/watchlist.txt 읽기 - 실패하면 기본 3개
     path = "config/watchlist.txt"
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
-            codes = [line.strip() for line in f if line.strip() and not line.strip().startswith("{")]
+            codes = [line.strip() for line in f if line.strip() and not line.strip().startswith("{") and not line.strip().startswith("[")]
             if codes: return codes
     return ["005930","000660","005380"]
 
 def run_bollinger():
     import yfinance as yf
+    import pandas as pd
     path = "config/bollinger_watchlist.json"
+    if not os.path.exists(path):
+        return [f"볼린저 설정 파일 없음: {path}"]
+    
     with open(path, encoding="utf-8") as f:
         cfg = json.load(f)
-    symbols = cfg.get("symbols", [])
+    
+    # 구조 유연하게: list거나 dict거나 둘 다 대응
+    if isinstance(cfg, list):
+        symbols = cfg
+    else:
+        symbols = cfg.get("symbols", cfg.get("watchlist", []))
+
     results = []
     for s in symbols:
-        sym = s["symbol"]
-        name = s["name"]
+        if isinstance(s, str):
+            sym, name, market = s, s, "KR"
+        else:
+            sym = s.get("symbol") or s.get("code")
+            name = s.get("name", sym)
+            market = s.get("market", "KR")
+            if not sym: continue
+
         try:
-            ysym = sym if "." in sym or sym.isalpha() else sym + ".KS"
-            # KR은 .KS 붙이기
-            if s.get("market") == "KR" and "." not in sym:
+            ysym = sym
+            if market == "KR" and sym.isdigit():
                 ysym = sym + ".KS"
-            df = yf.download(ysym, period="1mo", interval="1d", progress=False)
-            if len(df) < 20: continue
-            ma = df['Close'].rolling(20).mean().iloc[-1]
-            std = df['Close'].rolling(20).std().iloc[-1]
-            price = df['Close'].iloc[-1]
+            elif "." not in sym and sym.isdigit() == False and len(sym) <= 5:
+                 # US 심볼은 그대로
+                 ysym = sym
+
+            df = yf.download(ysym, period="1mo", interval="1d", progress=False, auto_adjust=True)
+            if df is None or len(df) < 20:
+                continue
+            
+            # yfinance 최신버전 MultiIndex 대응
+            close = df['Close']
+            if isinstance(close, pd.DataFrame):
+                close = close.iloc[:,0]
+            
+            ma = close.rolling(20).mean().iloc[-1]
+            std = close.rolling(20).std().iloc[-1]
+            price = float(close.iloc[-1])
+            
+            if pd.isna(ma) or pd.isna(std): continue
+            
             upper = ma + 2*std
             lower = ma - 2*std
             if price <= lower*1.003:
@@ -68,8 +102,11 @@ def main():
     parser.add_argument("--markets", type=str, default="KR,US")
     args = parser.parse_args()
 
-    token = get_token()
-    print("TOKEN OK")
+    # 볼린저 모드일 땐 토큰 없이도 돌게
+    if not args.bollinger:
+        token = get_token_safe()
+        if token: print("TOKEN OK")
+        else: print("TOKEN FAIL - 퀀트 스캔은 스킵될 수 있음")
 
     if args.bollinger:
         alerts = run_bollinger()
