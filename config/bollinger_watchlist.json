@@ -1,20 +1,272 @@
 {
-  "calculation": {"timeframe": "1D","length": 20,"standard_deviations": 2.0,"reentry_margin": 0.003},
-  "groups": {"holding": "현재 보유","swing": "스윙","value": "2027년 가치추적"},
   "symbols": [
-    {"symbol": "005930","name": "삼성전자","market": "KR","groups": ["holding","swing","value"]},
-    {"symbol": "000660","name": "SK하이닉스","market": "KR","groups": ["holding","value"]},
-    {"symbol": "003490","name": "대한항공","market": "KR","groups": ["holding"]},
-    {"symbol": "006400","name": "삼성SDI","market": "KR","groups": ["holding"]},
-    {"symbol": "NVDA","name": "엔비디아","market": "US","groups": ["holding","swing","value"]},
-    {"symbol": "MSFT","name": "마이크로소프트","market": "US","groups": ["holding","value"]},
-    {"symbol": "AAPL","name": "애플","market": "US","groups": ["value"]},
-    {"symbol": "GOOGL","name": "알파벳","market": "US","groups": ["value"]},
-    {"symbol": "AMZN","name": "아마존","market": "US","groups": ["holding","value"]},
-    {"symbol": "META","name": "메타","market": "US","groups": ["holding","value"]},
-    {"symbol": "TSLA","name": "테슬라","market": "US","groups": ["value"]},
-    {"symbol": "AVGO","name": "브로드컴","market": "US","groups": ["value"]},
-    {"symbol": "BRK.B","name": "버크셔","market": "US","groups": ["value"]},
-    {"symbol": "TSM","name": "TSMC","market": "US","groups": ["value"]}
-  ]
-}
+    {
+      "symbol": "161890",
+      "name": "한국콜마",
+      "market": "KR",
+      "avg_price": 137893,
+      "qty": 86
+    },
+    {
+      "symbol": "015760",
+      "name": "한국전력",
+      "market": "KR",
+      "avg_price": 30895,
+      "qty": 100
+    },
+    {
+      "symbol": "066970",
+      "name": "엘앤에프",
+      "market": "KR",
+      "avg_price": 103417,
+      "qty": 30
+    },
+    {
+      "symbol": "028050",
+      "name": "삼성E&A",
+      "market": "KR",
+      "avg_price": 47650,
+      "qty": 20
+    },
+    {
+      "symbol": "010140",
+      "name": "삼성중공업",
+      "market": "KR",
+      "avg_price": 20450,
+      "qty": 100
+    },
+    {
+      "symbol": "017670",
+      "name": "SK텔레콤",
+      "market": "KR",
+      "avg_price": 88036,
+      "qty": 100
+    },
+    {
+      "symbol": "278470",
+      "name": "에이피알",
+      "market": "KR",
+      "avg_price": 357844,
+      "qty": 3
+    },
+    {
+      "symbol": "225430",
+      "name": "케이엠제약",
+      "market": "KR",
+      "avg_price": 588,
+      "qty": 500
+    },
+    {
+      "symbol": "028260",
+      "name": "삼성물산",
+      "market": "KR",
+      "avg_price": 274000,
+      "qty": 5
+    },
+    {
+      "symbol": "036540",
+      "name": "SFA반도체",
+      "market": "KR",
+      "avg_price": 8960,
+      "qty": 50
+    },
+    {
+      "symbol": "327260",
+      "name": "RF머트리얼즈",
+      "market": "KR",
+      "avg_price": 44635,
+      "qty": 10
+    },
+    {
+      "symbol": "108490",
+      "name": "로보티즈",
+      "market": "KR",
+      "avg_price": 238250,
+      "qty": 2
+    },
+    {
+      "symbol": "196170",
+      "name": "알테오젠",
+      "market": "KR",
+      "avg_price": 247366,
+      "qty": 86
+    },
+    {
+      "symbol": "042660",
+      "name": "한화오션",
+      "market": "KR"
+    },
+    {
+      "symbol": "403870",
+      "name": "HPSP",
+      "market": "KR"
+    },
+    {
+      "symbol": "440110",
+      "name": "파두",
+      "market": "KR"
+    },
+    {
+      "symbol": "413630",
+      "name": "씨피시스템",
+      "market": "KR"
+    },
+    {
+      "symbol": "CRWD",
+      "name": "크라우드스트라이크",
+      "market": "US",
+      "avg_price": 260.15,
+      "qty": 5
+    },
+    {
+      "symbol": "GLXY",
+      "name": "갤럭시디지털",
+      "market": "US",
+      "avg_price": 27.2094,
+      "qty": 19
+    },
+    {
+      "symbol": "INTC",
+      "name": "인텔",
+      "market": "US",
+      "avg_price": 106.575,
+      "qty": 40
+    },
+    {
+      "symbol": "NVDA",
+      "name": "엔비디아",
+      "market": "US",
+      "avg_price": 235.2,
+      "qty": 10
+    },
+    {
+      "symbol": "HOOD",
+      "name": "로빈후드",
+      "market": "US",
+      "avg_price": 110.7047,
+      "qty": 40
+    },
+    {
+      "symbol": "SKHY",
+      "name": "SK하이닉스ADR",
+      "market": "US",
+      "avg_price": 167.5205,
+      "qty": 70
+    },
+    {
+      "symbol": "SNDK",
+      "name": "샌디스크",
+      "market": "US",
+      "avg_price": 1609.0,
+      "qty": 10
+    },
+    {
+      "symbol": "SPCX",
+      "name": "스페이스X?SPCX",
+      "market": "US",
+      "avg_price": 166.59,
+      "qty": 21
+    },
+    {
+      "symbol": "VRT",
+      "name": "버티브홀딩스",
+      "market": "US",
+      "avg_price": 255.15,
+      "qty": 10
+    },
+    {
+      "symbol": "WHLR",
+      "name": "휠러 리얼에스테이트",
+      "market": "US",
+      "avg_price": 4.7,
+      "qty": 100
+    },
+    {
+      "symbol": "IREN",
+      "name": "아이렌",
+      "market": "US",
+      "avg_price": 37.014,
+      "qty": 10
+    },
+    {
+      "symbol": "AKAM",
+      "name": "아카마이",
+      "market": "US",
+      "avg_price": 114.0,
+      "qty": 10
+    },
+    {
+      "symbol": "BE",
+      "name": "블룸에너지",
+      "market": "US",
+      "avg_price": 244.9771,
+      "qty": 35
+    },
+    {
+      "symbol": "CCS",
+      "name": "센츄리커뮤니티스",
+      "market": "US",
+      "avg_price": 61.3733,
+      "qty": 30
+    },
+    {
+      "symbol": "CRCL",
+      "name": "써클인터넷",
+      "market": "US",
+      "avg_price": 95.812,
+      "qty": 10
+    },
+    {
+      "symbol": "META",
+      "name": "메타",
+      "market": "US"
+    },
+    {
+      "symbol": "MCD",
+      "name": "맥도날드",
+      "market": "US"
+    },
+    {
+      "symbol": "GS",
+      "name": "골드만삭스",
+      "market": "US"
+    },
+    {
+      "symbol": "T",
+      "name": "AT&T",
+      "market": "US"
+    },
+    {
+      "symbol": "SOXX",
+      "name": "SOXX반도체ETF",
+      "market": "US"
+    },
+    {
+      "symbol": "IWY",
+      "name": "IWY 러셀Top200",
+      "market": "US"
+    },
+    {
+      "symbol": "^KS11",
+      "name": "KOSPI 코스피",
+      "market": "INDEX",
+      "yahoo": "^KS11",
+      "type": "index"
+    },
+    {
+      "symbol": "^KQ11",
+      "name": "KOSDAQ 코스닥",
+      "market": "INDEX",
+      "yahoo": "^KQ11",
+      "type": "index"
+    }
+  ],
+  "settings": {
+    "period": 20,
+    "std": 2,
+    "markets": [
+      "KR",
+      "US"
+    ]
+  }
+  
