@@ -2,11 +2,15 @@ name: NH PLUG Morning Monitor
 
 on:
   schedule:
-    - cron: "0 23 * * 0-4"
-    - cron: "0 0 * * 1-5"
-    - cron: "0,30 0-6 * * 1-5"
-    - cron: "20,25 6 * * 1-5"
+    - cron: "0 23 * * 0-5"
+    - cron: "0 0 * * 1-6"
+    - cron: "0,30 0-6 * * 1-6"
+    - cron: "20,25 6 * * 1-6"
   workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
 
 jobs:
   monitor:
@@ -43,6 +47,7 @@ jobs:
               echo "알림 있음 - 이슈 생성"
               gh issue create --title "📢 NH Bollinger Alert $(date +'%m/%d %H:%M')" --body "$CONTENT" || true
             else
-              echo "정상 스캔 - 알림 없음"
+              echo "✅ 정상 스캔 - 무사!"
+              echo "$CONTENT"
             fi
           fi
