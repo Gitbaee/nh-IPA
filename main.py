@@ -58,9 +58,26 @@ def update_avg_from_brokerage(cfg):
 def run_bollinger_with_avg():
     import yfinance as yf
     alerts=[]
-    p="config/bollinger_watchlist.json"
-    if not os.path.exists(p):
-        return ["bollinger_watchlist.json 없음"]
+    # 토요일까지 수정: 파일 이름이 final일 수도 있어서 둘 다 확인
+    possible_paths = [
+        "config/bollinger_watchlist.json",
+        "config/bollinger_watchlist_final.json",
+        "bollinger_watchlist.json",
+        "bollinger_watchlist_final.json",
+        "config/bollinger_watchlist.json".replace("config/", ""),
+    ]
+    p = None
+    for cand in possible_paths:
+        if os.path.exists(cand):
+            p = cand
+            break
+    if not p:
+        # 디버깅용: 어떤 파일이 있는지 보여주기
+        try:
+            files = os.listdir("config") if os.path.exists("config") else []
+            return [f"bollinger_watchlist.json 없음 - config 폴더: {files}"]
+        except:
+            return ["bollinger_watchlist.json 없음"]
     with open(p,encoding="utf-8") as f:
         cfg=json.load(f)
     
@@ -134,8 +151,8 @@ def main():
     os.makedirs("output", exist_ok=True)
     with open("output/summary.txt","w",encoding="utf-8") as f:
         f.write("\n".join(alerts))
-    print("\n".join(alerts))
+        print("\n".join(alerts))
 
 if __name__=="__main__":
-    main()
+    main()("\n".join(
     
