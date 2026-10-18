@@ -1,4 +1,4 @@
-name: NH PLUG Morning Monitor
+  name: NH PLUG Morning Monitor
 
 on:
   schedule:
