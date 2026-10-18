@@ -1,4 +1,3 @@
-
 import os, json, argparse
 try:
     from auth import get_token
@@ -34,16 +33,8 @@ def load_watchlist():
     return ["005930","000660","005380"]
 
 def update_avg_from_brokerage(cfg):
-    """
-    나무에서 안내받은 해외잔고 가능 - 국내/해외 잔고 API로 평단 자동 갱신
-    해외: TTTS3012R (해외주식 잔고조회)
-    국내: TTTC8434R
-    """
     try:
         overseas = fetch_overseas_balance()
-        # 실제 API 응답이 오면 cfg에 자동 반영
-        # 예: holdings = [{"ovrs_pdno": "NVDA", "pchs_avg_pric": "235.2", "ovrs_cblc_qty": "10"}]
-        # 현재는 yfinance 기반이므로 JSON 수동이 기본, API 성공시 자동 덮어쓰기
         if overseas.get("rt_cd")=="0" and overseas.get("holdings"):
             for h in overseas["holdings"]:
                 sym = h.get("ovrs_pdno")
@@ -58,13 +49,11 @@ def update_avg_from_brokerage(cfg):
 def run_bollinger_with_avg():
     import yfinance as yf
     alerts=[]
-    # 토요일까지 수정: 파일 이름이 final일 수도 있어서 둘 다 확인
     possible_paths = [
         "config/bollinger_watchlist.json",
         "config/bollinger_watchlist_final.json",
         "bollinger_watchlist.json",
         "bollinger_watchlist_final.json",
-        "config/bollinger_watchlist.json".replace("config/", ""),
     ]
     p = None
     for cand in possible_paths:
@@ -72,7 +61,6 @@ def run_bollinger_with_avg():
             p = cand
             break
     if not p:
-        # 디버깅용: 어떤 파일이 있는지 보여주기
         try:
             files = os.listdir("config") if os.path.exists("config") else []
             return [f"bollinger_watchlist.json 없음 - config 폴더: {files}"]
@@ -80,17 +68,13 @@ def run_bollinger_with_avg():
             return ["bollinger_watchlist.json 없음"]
     with open(p,encoding="utf-8") as f:
         cfg=json.load(f)
-    
-    # 해외잔고 자동 업데이트 시도 (나무 안내 - 가능함)
     cfg = update_avg_from_brokerage(cfg)
-    
     for s in cfg.get("symbols",[])[:100]:
         sym=s["symbol"]; name=s.get("name",sym)
         avg=s.get("avg_price")
         try:
             ysym=sym
             m=s.get("market","KR")
-            # INDEX handling: ^KS11, ^KQ11 etc - use as is
             if sym.startswith("^"):
                 ysym=sym
             elif m=="INDEX":
@@ -108,7 +92,6 @@ def run_bollinger_with_avg():
             vol_today=float(df['Volume'].iloc[-1])
             vol_avg=float(df['Volume'].rolling(20).mean().iloc[-1])
             vol_ratio=vol_today/vol_avg if vol_avg>0 else 0
-
             if price<=lower*1.02:
                 alerts.append(f"🔵 [{name} {sym}] 볼린저 하단 터치 {price:.0f} (하단 {lower:.0f})")
             if price>=upper*0.98:
@@ -151,8 +134,7 @@ def main():
     os.makedirs("output", exist_ok=True)
     with open("output/summary.txt","w",encoding="utf-8") as f:
         f.write("\n".join(alerts))
-        print("\n".join(alerts))
+    print("\n".join(alerts))
 
 if __name__=="__main__":
-    main()("\n".join(
-    
+    main()
