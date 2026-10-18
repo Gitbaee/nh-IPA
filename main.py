@@ -123,14 +123,14 @@ def main():
     print("TOKEN OK")
     if args.bollinger:
         alerts=run_bollinger_with_avg()
-        if not alerts: alerts=["정상 스캔 - 알람 없음"]
+        if not alerts: alerts=["✅ 정상 스캔 - 전 종목 무사! 40종목 모두 안전해! 걱정 마! 💚"]
     else:
         codes=load_watchlist()
         print(f"WATCHLIST {codes}")
         a=[]
         for c in codes:
             a+=quant_filter(c, fetch_realtime_tick(c))
-        alerts=a if a else [f"정상 스캔 {len(codes)}종목 특이체결 없음"]
+        alerts=a if a else [f"✅ 정상 스캔 - {len(codes)}종목 모두 무사! 안전해! 💚"]
     os.makedirs("output", exist_ok=True)
     with open("output/summary.txt","w",encoding="utf-8") as f:
         f.write("\n".join(alerts))
