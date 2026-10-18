@@ -6,4 +6,4 @@ websockets
 openpyxl
 yfinance
 pandas
-requests
+lxml
