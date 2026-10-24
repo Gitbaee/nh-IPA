@@ -1,21 +1,15 @@
 import os, json, argparse
 
-try:
-    from auth import get_token
-except:
-    def get_token(): return "DUMMY"
-
 def run_bollinger_with_avg():
     try:
         import yfinance as yf
-        import pandas as pd
     except Exception as e:
-        return [f"yfinance/pandas 설치 필요: {e}"]
-
+        return [f"yfinance 설치 필요: {e}"]
     alerts = []
     possible_paths = [
         "config/bollinger_watchlist_final.json",
         "bollinger_watchlist_final.json",
+        "config/bollinger_watchlist.json",
     ]
     p = None
     for cand in possible_paths:
@@ -23,14 +17,11 @@ def run_bollinger_with_avg():
             p = cand
             break
     if not p:
-        return [f"bollinger_watchlist_final.json 없음. 현재 파일: {os.listdir('.')}"]
-
+        return [f"watchlist 없음: {os.listdir('.')}"]
     with open(p, encoding="utf-8") as f:
         cfg = json.load(f)
-
     period = cfg.get("settings", {}).get("period", 20)
     std_mult = cfg.get("settings", {}).get("std", 2)
-
     for s in cfg.get("symbols", [])[:100]:
         sym = s["symbol"]
         name = s.get("name", sym)
@@ -47,16 +38,12 @@ def run_bollinger_with_avg():
                 ysym = sym + ".KS"
             if sym == "BRK.B":
                 ysym = "BRK-B"
-
             df = yf.download(ysym, period="3mo", interval="1d", progress=False, auto_adjust=False)
             if len(df) < period:
                 continue
-            if 'Close' in df.columns:
-                close = df['Close']
-                if hasattr(close, 'columns'):
-                    close = close.iloc[:,0]
-            else:
-                close = df.iloc[:,3] if len(df.columns)>=4 else df.iloc[:,0]
+            close = df['Close']
+            if hasattr(close, 'columns'):
+                close = close.iloc[:,0]
             close = close.dropna()
             if len(close) < period:
                 continue
@@ -91,10 +78,6 @@ def main():
     pa = argparse.ArgumentParser()
     pa.add_argument("--bollinger", action="store_true")
     args = pa.parse_args()
-    print("TOKEN CHECK")
-    try: get_token()
-    except: pass
-    print("TOKEN OK")
     if args.bollinger:
         alerts = run_bollinger_with_avg()
         if not alerts:
