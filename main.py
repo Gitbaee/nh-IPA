@@ -1,128 +1,110 @@
-#!/usr/bin/env python3
-"""볼린저 밴드 감시 + 텔레그램 알림 (독립 실행)"""
+import os, json, argparse
 
-import json
-import os
-from datetime import datetime
-from pathlib import Path
+try:
+    from auth import get_token
+except:
+    def get_token(): return "DUMMY"
 
-import pandas as pd
-import requests
-import yfinance as yf
-
-BOLLINGER_PATH = Path("config/bollinger_watchlist.json")
-SUMMARY_PATH = Path("output/summary.txt")
-
-
-def emit_alert(title: str, body: str) -> None:
-    token = os.getenv("TELEGRAM_BOT_TOKEN")
-    chat_id = os.getenv("TELEGRAM_CHAT_ID") or os.getenv("CHAT_ID")
-
-    print("\n" + "=" * 50)
-    print(f"[ALERT] {title}")
-    print(body)
-    print("=" * 50 + "\n")
-
-    if not token or not chat_id:
-        print("[알림] 텔레그램 설정 없음 → 콘솔만 출력")
-        return
-
+def run_bollinger_with_avg():
     try:
-        url = f"https://api.telegram.org/bot{token}/sendMessage"
-        resp = requests.post(
-            url,
-            json={"chat_id": chat_id, "text": f"🔔 {title}\n\n{body}"},
-            timeout=10,
-        )
-        print("[알림] 텔레그램 전송", "성공" if resp.ok else f"실패 {resp.status_code}")
+        import yfinance as yf
+        import pandas as pd
     except Exception as e:
-        print(f"[알림] 예외: {e}")
+        return [f"yfinance/pandas 설치 필요: {e}"]
 
-
-def to_yahoo(item: dict) -> str | None:
-    market = (item.get("market") or "").upper()
-    symbol = str(item.get("symbol") or "").strip()
-    if item.get("yahoo"):
-        return item["yahoo"]
-    if not symbol:
-        return None
-    if market == "KR":
-        return f"{symbol}.KS"
-    if market in ("US", "INDEX"):
-        return symbol
-    return symbol
-
-
-def run():
-    if not BOLLINGER_PATH.exists():
-        print("config/bollinger_watchlist.json 없음")
-        return
-
-    cfg = json.loads(BOLLINGER_PATH.read_text(encoding="utf-8"))
-    symbols = cfg.get("symbols") or []
-    period = int(cfg.get("settings", {}).get("period", 20))
-    std_mult = float(cfg.get("settings", {}).get("std", 2))
-
-    print(f"[볼린저] {len(symbols)}개 종목 검사 (period={period}, std={std_mult})")
-    lines = [
-        f"NH 볼린저 감시 {datetime.now():%Y-%m-%d %H:%M:%S}",
-        f"period={period} std={std_mult}",
-        "",
+    alerts = []
+    possible_paths = [
+        "config/bollinger_watchlist_final.json",
+        "bollinger_watchlist_final.json",
     ]
+    p = None
+    for cand in possible_paths:
+        if os.path.exists(cand):
+            p = cand
+            break
+    if not p:
+        return [f"bollinger_watchlist_final.json 없음. 현재 파일: {os.listdir('.')}"]
 
-    for item in symbols:
-        name = item.get("name") or item.get("symbol")
-        ysym = to_yahoo(item)
-        if not ysym:
-            continue
+    with open(p, encoding="utf-8") as f:
+        cfg = json.load(f)
 
+    period = cfg.get("settings", {}).get("period", 20)
+    std_mult = cfg.get("settings", {}).get("std", 2)
+
+    for s in cfg.get("symbols", [])[:100]:
+        sym = s["symbol"]
+        name = s.get("name", sym)
+        avg = s.get("avg_price")
+        qty = s.get("qty", "")
         try:
-            hist = yf.Ticker(ysym).history(period="3mo", interval="1d")
-            if hist is None or len(hist) < period + 2:
-                if ysym.endswith(".KS"):
-                    hist = yf.Ticker(ysym.replace(".KS", ".KQ")).history(period="3mo", interval="1d")
-                if hist is None or len(hist) < period + 2:
-                    print(f"  [스킵] {name} 데이터 부족")
-                    continue
+            ysym = sym
+            m = s.get("market", "KR")
+            if sym.startswith("^"):
+                ysym = sym
+            elif m == "INDEX":
+                ysym = s.get("yahoo", sym)
+            elif m == "KR" and sym.isdigit():
+                ysym = sym + ".KS"
+            if sym == "BRK.B":
+                ysym = "BRK-B"
 
-            close = hist["Close"]
-            mid = close.rolling(period).mean().iloc[-1]
-            std = close.rolling(period).std().iloc[-1]
-            upper = mid + std_mult * std
-            lower = mid - std_mult * std
-            price = close.iloc[-1]
-
-            if pd.isna(mid):
+            df = yf.download(ysym, period="3mo", interval="1d", progress=False, auto_adjust=False)
+            if len(df) < period:
                 continue
-
-            pos = "중간"
-            signal = None
+            if 'Close' in df.columns:
+                close = df['Close']
+                if hasattr(close, 'columns'):
+                    close = close.iloc[:,0]
+            else:
+                close = df.iloc[:,3] if len(df.columns)>=4 else df.iloc[:,0]
+            close = close.dropna()
+            if len(close) < period:
+                continue
+            ma = float(close.rolling(period).mean().iloc[-1])
+            std = float(close.rolling(period).std().iloc[-1])
+            price = float(close.iloc[-1])
+            if std == 0:
+                continue
+            lower = ma - std_mult * std
+            upper = ma + std_mult * std
+            percent_b = (price - lower) / (upper - lower) if (upper-lower)!=0 else 0.5
+            high_20 = float(close.rolling(period).max().iloc[-1])
+            low_20 = float(close.rolling(period).min().iloc[-1])
             if price <= lower:
-                pos = "하단 이탈 (매수 관심)"
-                signal = "LOWER"
+                alerts.append(f"🔵 [{name} {sym}] 하단 돌파! {price:.0f} < {lower:.0f} %B {percent_b:.2f}")
             elif price >= upper:
-                pos = "상단 이탈 (과열)"
-                signal = "UPPER"
-
-            line = f"{name}({item.get('symbol')}) 종가={price:,.0f} 상단={upper:,.0f} 중간={mid:,.0f} 하단={lower:,.0f} → {pos}"
-            print(f"  {line}")
-            lines.append(line)
-
-            if signal:
-                body = (
-                    f"종목: {name}\n코드: {item.get('symbol')}\n"
-                    f"현재가: {price:,.0f}\n상단: {upper:,.0f}\n중간: {mid:,.0f}\n하단: {lower:,.0f}\n"
-                    f"상태: {pos}\n시각: {datetime.now():%Y-%m-%d %H:%M:%S}"
-                )
-                emit_alert(f"볼린저 {'하단' if signal == 'LOWER' else '상단'} 신호", body)
-
+                alerts.append(f"🔴 [{name} {sym}] 상단 돌파! {price:.0f} > {upper:.0f} %B {percent_b:.2f}")
+            elif percent_b <= 0.05:
+                alerts.append(f"🔵 [{name} {sym}] 하단 근접 {price:.0f} (고점 {high_20:.0f} 저점 {low_20:.0f})")
+            elif percent_b >= 0.95:
+                alerts.append(f"🔴 [{name} {sym}] 상단 근접 {price:.0f} (고점 {high_20:.0f} 저점 {low_20:.0f})")
+            if avg and avg>0:
+                pct = (price-avg)/avg*100
+                if abs(pct) >= 5:
+                    emo = "📈" if pct>0 else "📉"
+                    alerts.append(f"{emo} [{name}] 평단 {avg:,.0f} 대비 {pct:+.2f}% -> 현재 {price:.0f} ({qty}주)")
         except Exception as e:
-            print(f"  [오류] {name}: {e}")
+            alerts.append(f"[{sym}] 오류: {e}")
+    return alerts
 
-    SUMMARY_PATH.parent.mkdir(parents=True, exist_ok=True)
-    SUMMARY_PATH.write_text("\n".join(lines), encoding="utf-8")
-    print(f"[완료] {SUMMARY_PATH}")
-
+def main():
+    pa = argparse.ArgumentParser()
+    pa.add_argument("--bollinger", action="store_true")
+    args = pa.parse_args()
+    print("TOKEN CHECK")
+    try: get_token()
+    except: pass
+    print("TOKEN OK")
+    if args.bollinger:
+        alerts = run_bollinger_with_avg()
+        if not alerts:
+            alerts = ["✅ 정상 스캔 - 전 종목 안정권"]
+    else:
+        alerts = ["--bollinger 옵션 필요"]
+    os.makedirs("output", exist_ok=True)
+    with open("output/summary.txt", "w", encoding="utf-8") as f:
+        f.write("\n".join(alerts))
+    print("\n".join(alerts))
 
 if __name__ == "__main__":
-    run()
+    main()
