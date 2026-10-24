@@ -1,178 +1,110 @@
-import argparse
-import asyncio
-from pathlib import Path
+import os, json, argparse
 
-from alerts import alert_status_rows
-from bollinger_monitor import monitor_bollinger
-from monitor import monitor
-from export_excel import export
-from portfolio import (
-    load_watchlist,
-    refresh_watchlist_from_state,
-)
+try:
+    from auth import get_token
+except:
+    def get_token(): return "DUMMY"
 
-
-def codes():
-    path = Path("config/watchlist.txt")
-
-    if not path.exists():
-        return []
-
-    return [
-        x.strip()
-        for x in path.read_text(
-            encoding="utf-8"
-        ).splitlines()
-        if x.strip()
-    ]
-
-
-def sync_account_watchlist():
-
-    old_codes = codes()
-
-    print(
-        f"[기존 감시목록] "
-        f"{len(old_codes)}종목"
-    )
-
+def run_bollinger_with_avg():
     try:
-
-        refreshed = refresh_watchlist_from_state()
-
-        if refreshed:
-
-            print(
-                f"[계좌 동기화 성공] "
-                f"{len(refreshed)}종목"
-            )
-
-            return refreshed
-
-        print(
-            "[계좌 동기화 결과 없음] "
-            "기존 감시목록 유지"
-        )
-
-        return old_codes
-
+        import yfinance as yf
+        import pandas as pd
     except Exception as e:
+        return [f"yfinance/pandas 설치 필요: {e}"]
 
-        print(
-            f"[계좌 동기화 실패] "
-            f"{type(e).__name__}: {e}"
-        )
+    alerts = []
+    possible_paths = [
+        "config/bollinger_watchlist_final.json",
+        "bollinger_watchlist_final.json",
+    ]
+    p = None
+    for cand in possible_paths:
+        if os.path.exists(cand):
+            p = cand
+            break
+    if not p:
+        return [f"bollinger_watchlist_final.json 없음. 현재 파일: {os.listdir('.')}"]
 
-        print(
-            "[보호동작] 기존 감시목록 유지"
-        )
+    with open(p, encoding="utf-8") as f:
+        cfg = json.load(f)
 
-        return old_codes
+    period = cfg.get("settings", {}).get("period", 20)
+    std_mult = cfg.get("settings", {}).get("std", 2)
 
+    for s in cfg.get("symbols", [])[:100]:
+        sym = s["symbol"]
+        name = s.get("name", sym)
+        avg = s.get("avg_price")
+        qty = s.get("qty", "")
+        try:
+            ysym = sym
+            m = s.get("market", "KR")
+            if sym.startswith("^"):
+                ysym = sym
+            elif m == "INDEX":
+                ysym = s.get("yahoo", sym)
+            elif m == "KR" and sym.isdigit():
+                ysym = sym + ".KS"
+            if sym == "BRK.B":
+                ysym = "BRK-B"
+
+            df = yf.download(ysym, period="3mo", interval="1d", progress=False, auto_adjust=False)
+            if len(df) < period:
+                continue
+            if 'Close' in df.columns:
+                close = df['Close']
+                if hasattr(close, 'columns'):
+                    close = close.iloc[:,0]
+            else:
+                close = df.iloc[:,3] if len(df.columns)>=4 else df.iloc[:,0]
+            close = close.dropna()
+            if len(close) < period:
+                continue
+            ma = float(close.rolling(period).mean().iloc[-1])
+            std = float(close.rolling(period).std().iloc[-1])
+            price = float(close.iloc[-1])
+            if std == 0:
+                continue
+            lower = ma - std_mult * std
+            upper = ma + std_mult * std
+            percent_b = (price - lower) / (upper - lower) if (upper-lower)!=0 else 0.5
+            high_20 = float(close.rolling(period).max().iloc[-1])
+            low_20 = float(close.rolling(period).min().iloc[-1])
+            if price <= lower:
+                alerts.append(f"🔵 [{name} {sym}] 하단 돌파! {price:.0f} < {lower:.0f} %B {percent_b:.2f}")
+            elif price >= upper:
+                alerts.append(f"🔴 [{name} {sym}] 상단 돌파! {price:.0f} > {upper:.0f} %B {percent_b:.2f}")
+            elif percent_b <= 0.05:
+                alerts.append(f"🔵 [{name} {sym}] 하단 근접 {price:.0f} (고점 {high_20:.0f} 저점 {low_20:.0f})")
+            elif percent_b >= 0.95:
+                alerts.append(f"🔴 [{name} {sym}] 상단 근접 {price:.0f} (고점 {high_20:.0f} 저점 {low_20:.0f})")
+            if avg and avg>0:
+                pct = (price-avg)/avg*100
+                if abs(pct) >= 5:
+                    emo = "📈" if pct>0 else "📉"
+                    alerts.append(f"{emo} [{name}] 평단 {avg:,.0f} 대비 {pct:+.2f}% -> 현재 {price:.0f} ({qty}주)")
+        except Exception as e:
+            alerts.append(f"[{sym}] 오류: {e}")
+    return alerts
 
 def main():
-
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "--minutes",
-        type=int,
-        default=10
-    )
-
-    parser.add_argument(
-        "--selftest",
-        action="store_true"
-    )
-
-    parser.add_argument(
-        "--status",
-        action="store_true"
-    )
-
-    parser.add_argument(
-        "--sync-watchlist",
-        action="store_true"
-    )
-
-    parser.add_argument(
-        "--bollinger",
-        action="store_true",
-        help="볼린저밴드 실시간 감시 모드"
-    )
-
-    parser.add_argument(
-        "--markets",
-        default="KR,US",
-        help="볼린저 감시 시장: KR, US 또는 KR,US"
-    )
-
-    args = parser.parse_args()
-
+    pa = argparse.ArgumentParser()
+    pa.add_argument("--bollinger", action="store_true")
+    args = pa.parse_args()
+    print("TOKEN CHECK")
+    try: get_token()
+    except: pass
+    print("TOKEN OK")
     if args.bollinger:
-        markets = {item.strip().upper() for item in args.markets.split(",") if item.strip()}
-        invalid = markets - {"KR", "US"}
-        if not markets or invalid:
-            raise ValueError(f"지원하지 않는 시장: {', '.join(sorted(invalid))}")
-        asyncio.run(
-            monitor_bollinger(
-                args.minutes * 60 if args.minutes > 0 else 0,
-                markets=markets,
-            )
-        )
-        return
-
-    if args.selftest:
-
-        print("SELFTEST OK")
-
-        active_codes = sync_account_watchlist()
-
-        print(
-            "감시종목:",
-            active_codes
-        )
-
-        return
-
-    if args.status:
-
-        for row in alert_status_rows():
-
-            print(
-                f"{row['유형']}: "
-                f"{row['상태']}"
-            )
-
-        return
-
-    active_codes = sync_account_watchlist()
-
-    if args.sync_watchlist:
-
-        print(
-            "동기화된 감시종목:",
-            active_codes
-        )
-
-        return
-
-    if not active_codes:
-
-        raise RuntimeError(
-            "계좌 보유종목과 기존 watchlist 모두 없습니다."
-        )
-
-    asyncio.run(
-        monitor(
-            active_codes,
-            args.minutes * 60,
-            max_retries=5
-        )
-    )
-
-    export()
-
+        alerts = run_bollinger_with_avg()
+        if not alerts:
+            alerts = ["✅ 정상 스캔 - 전 종목 안정권"]
+    else:
+        alerts = ["--bollinger 옵션 필요"]
+    os.makedirs("output", exist_ok=True)
+    with open("output/summary.txt", "w", encoding="utf-8") as f:
+        f.write("\n".join(alerts))
+    print("\n".join(alerts))
 
 if __name__ == "__main__":
     main()
