@@ -6,11 +6,7 @@ def run_bollinger_with_avg():
     except Exception as e:
         return [f"yfinance 설치 필요: {e}"]
     alerts = []
-    possible_paths = [
-        "config/bollinger_watchlist_final.json",
-        "bollinger_watchlist_final.json",
-        "config/bollinger_watchlist.json",
-    ]
+    possible_paths = ["config/bollinger_watchlist_final.json", "bollinger_watchlist_final.json", "config/bollinger_watchlist.json"]
     p = None
     for cand in possible_paths:
         if os.path.exists(cand):
