@@ -44,6 +44,19 @@ def date_range(start: date, end: date):
         current += timedelta(days=1)
 
 
+def krx_auth_failure_kind(message: str) -> str | None:
+    """Classify fatal KRX authentication/session failures without guessing credentials."""
+    lower = message.lower()
+    if "cd007" in lower or "패스워드 오류수에 의한 잠금" in message:
+        return "locked"
+    if (
+        "login response not json" in lower
+        or "login/session response was not json" in lower
+    ):
+        return "login_response"
+    return None
+
+
 def fetch_retry(endpoint: str, **params) -> pd.DataFrame:
     """Retry transient errors, but stop immediately on an authentication lock."""
     last_error = None
@@ -57,9 +70,14 @@ def fetch_retry(endpoint: str, **params) -> pd.DataFrame:
                 f"[WARN] {endpoint} {params} attempt {attempt}/3 failed: {message}",
                 flush=True,
             )
-            if "CD007" in message or "패스워드 오류수에 의한 잠금" in message:
+            auth_failure = krx_auth_failure_kind(message)
+            if auth_failure == "locked":
                 raise RuntimeError(
                     "KRX authentication is locked (CD007); stopping without further login attempts."
+                ) from exc
+            if auth_failure == "login_response":
+                raise RuntimeError(
+                    "KRX login/session response was not JSON; stopping this run without further login attempts."
                 ) from exc
             if attempt < 3:
                 time.sleep(attempt * 3)
@@ -94,7 +112,7 @@ def safe_fetch(
     except RuntimeError as exc:
         # Authentication locks are account-wide; continuing would only create
         # more failed requests and may worsen the lockout.
-        if "CD007" in str(exc) or "authentication is locked" in str(exc):
+        if krx_auth_failure_kind(str(exc)) or "authentication is locked" in str(exc).lower():
             raise
         message = str(exc)
         print(
