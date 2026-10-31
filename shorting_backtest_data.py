@@ -312,7 +312,7 @@ def main() -> int:
     except Exception as exc:
         print(f"[WARN] Telegram notification was not sent: {exc}", flush=True)
 
-    # Query-level failures are recorded and notified; keep the workflow alive so\n    # partial datasets and the failure manifest are committed for later recovery.\n    return 0\n
+    # Query-level failures are recorded and notified; keep the workflow alive so\n    # partial datasets and the failure manifest are committed for later recovery.\n    return 2 if fatal_error else 0\n
 
 if __name__ == "__main__":
     try:
