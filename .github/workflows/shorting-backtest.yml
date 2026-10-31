@@ -76,6 +76,9 @@ jobs:
       - name: Validate Python
         run: python -m py_compile shorting_backtest_data.py Alerts.py
 
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+
       - name: Collect KRX short-selling, balance and price history
         run: python shorting_backtest_data.py
 
