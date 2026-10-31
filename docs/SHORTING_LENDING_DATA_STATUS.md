@@ -30,7 +30,7 @@
 
 - 서비스 후보: GetStocLendBorrInfoService_V2
 - 종목별 일별 현황 후보: getStItemLendAndBorrStatu_V2
-- 응답 필드 후보: basDt, isinCd, isinCdNm, lnbCclStckCnt, lnbRdptStckCnt, lnbRmanStckCnt
+- 응답 필드 후보: basDt, isinCd, isinCdNm, lnbCclStckCnt, lnbRdptStckCnt, lnbRmanStckCnt. 각 필드의 정의·단위는 공식 가이드 대조 전까지 미확정
 - 일반적인 금융위 API 호출 형식 후보: serviceKey, numOfRows, pageNo, resultType=json, basDt
 
 참고용 독립 자료:
