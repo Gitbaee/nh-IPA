@@ -1,0 +1,54 @@
+name: DART Full Listed-Market Monitor
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 매일 08:10 KST
+    - cron: "10 23 * * *"
+    # 매일 16:10 KST
+    - cron: "10 7 * * *"
+
+concurrency:
+  group: dart-full-market-monitor
+  cancel-in-progress: false
+
+jobs:
+  dart-monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PYTHONUNBUFFERED: "1"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate Python
+        run: python -m py_compile dart_monitor.py Alerts.py
+
+      - name: Run full listed-market DART monitor
+        env:
+          DART_API_KEY: ${{ secrets.DART_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TELEGRAM_TOKEN || secrets.BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || secrets.CHAT_ID }}
+        run: python dart_monitor.py
+
+      - name: Upload DART summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dart-monitor-summary
+          path: output/dart_summary.txt
+          if-no-files-found: ignore
