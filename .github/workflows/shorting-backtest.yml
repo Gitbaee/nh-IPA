@@ -33,7 +33,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 240
     env:
       PYTHONUNBUFFERED: "1"
       KRX_ID: ${{ secrets.KRX_ID }}
@@ -44,6 +44,8 @@ jobs:
       SHORTING_MODE: ${{ github.event_name == 'schedule' && 'incremental' || inputs.mode || 'backfill' }}
       SHORTING_START_DATE: ${{ inputs.start_date || '20260501' }}
       SHORTING_END_DATE: ${{ inputs.end_date }}
+      LENDING_PAGE_SIZE: "100"
+      LENDING_REQUEST_INTERVAL: "1.0"
 
     steps:
       - name: Check out repository
@@ -74,23 +76,36 @@ jobs:
           fi
 
       - name: Validate Python
-        run: python -m py_compile shorting_backtest_data.py Alerts.py
+        run: python -m py_compile shorting_backtest_data.py lending_backtest_data.py compare_shorting_lending.py Alerts.py
 
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
 
+      - name: Collect FSC stock-lending history (guarded live-schema validation)
+        if: env.KRX_LENDING_API_KEY != ''
+        continue-on-error: true
+        run: python lending_backtest_data.py
+
       - name: Collect KRX short-selling, balance and price history
         run: python shorting_backtest_data.py
 
+      - name: Build ISIN/date comparison
+        if: always()
+        continue-on-error: true
+        run: python compare_shorting_lending.py
+
       - name: Persist compressed historical datasets
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/shorting/*.csv.gz output/shorting_collection_status.csv output/shorting_collection_failures.csv output/shorting_collection_summary.txt
+          git add -A data/shorting output
+          if [[ -d data/lending ]]; then git add -A data/lending; fi
+          if [[ -d data/shorting_lending ]]; then git add -A data/shorting_lending; fi
           if git diff --cached --quiet; then
             echo "No dataset changes to commit."
           else
-            git commit -m "Update KRX short-selling backtest data"
+            git commit -m "Update KRX short-selling and FSC lending datasets"
             git push
           fi
 
@@ -98,10 +113,15 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: krx-shorting-backtest-data
+          name: krx-shorting-lending-backtest-data
           path: |
             output/shorting_collection_summary.txt
             output/shorting_collection_status.csv
             output/shorting_collection_failures.csv
+            output/lending_collection_summary.txt
+            output/lending_collection_status.csv
+            output/shorting_lending_comparison_summary.txt
             data/shorting/*.csv.gz
+            data/lending/*.csv.gz
+            data/shorting_lending/*.csv.gz
           if-no-files-found: warn
