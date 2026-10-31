@@ -38,7 +38,8 @@
 
 - `.github/workflows/shorting-backtest.yml`에 `KRX_LENDING_API_KEY: ${{ secrets.KRX_LENDING_API_KEY }}` 연결
 - workflow 실행 시 키 값은 출력하지 않고 Secret 설정 여부만 검사
-- 기존 KRX 공매도 수집 코드와 기존 파일 경로는 변경하지 않음
+- 기존 KRX 공매도 데이터 형식·저장 경로는 보존. 단, CD007 잠금 및 로그인 응답 비정상(JSON 아님) 감지 시 전체 수집을 즉시 중단하도록 재시도 안전장치 추가
+- KRX 인증 실패 분류 함수의 단위 테스트 4건 추가. 테스트 실행은 아직 GitHub Actions에서 확인되지 않음
 - 공식 명세가 확인되지 않아 대차 수집 스크립트, 대차 원자료 CSV 및 공매도·대차 비교파일은 아직 생성하지 않음
 
 ## 4. 기존 공매도 데이터의 마지막 확인 상태
