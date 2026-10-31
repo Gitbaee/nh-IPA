@@ -39,26 +39,79 @@ def parse_date(value: str) -> date:
 def date_range(start: date, end: date):
     current = start
     while current <= end:
-        # Weekends are skipped; exchange holidays return an empty KRX response.
         if current.weekday() < 5:
             yield current
         current += timedelta(days=1)
 
 
 def fetch_retry(endpoint: str, **params) -> pd.DataFrame:
+    """Retry transient errors, but stop immediately on an authentication lock."""
     last_error = None
     for attempt in range(1, 4):
         try:
             return fetch(endpoint, auth=True, **params)
         except Exception as exc:
             last_error = exc
+            message = str(exc)
             print(
-                f"[WARN] {endpoint} {params} attempt {attempt}/3 failed: {exc}",
+                f"[WARN] {endpoint} {params} attempt {attempt}/3 failed: {message}",
                 flush=True,
             )
+            if "CD007" in message or "패스워드 오류수에 의한 잠금" in message:
+                raise RuntimeError(
+                    "KRX authentication is locked (CD007); stopping without further login attempts."
+                ) from exc
             if attempt < 3:
                 time.sleep(attempt * 3)
-    raise RuntimeError(f"KRX request failed after 3 attempts: {endpoint} {params}") from last_error
+    raise RuntimeError(
+        f"KRX request failed after 3 attempts: {endpoint} {params}: {last_error}"
+    ) from last_error
+
+
+def safe_fetch(
+    endpoint: str,
+    *,
+    day: str,
+    dataset: str,
+    market: str,
+    params: dict,
+    status: list[dict[str, str]],
+    failures: list[dict[str, str]],
+) -> pd.DataFrame:
+    """Fetch one query; preserve failures and let the remaining backfill continue."""
+    try:
+        df = fetch_retry(endpoint, **params)
+        tagged = add_query_metadata(df, day, market)
+        status.append({
+            "date": day,
+            "dataset": dataset,
+            "market": market,
+            "rows": str(len(tagged)),
+            "status": "ok" if not tagged.empty else "empty_or_unreported",
+            "error": "",
+        })
+        return tagged
+    except RuntimeError as exc:
+        # Authentication locks are account-wide; continuing would only create
+        # more failed requests and may worsen the lockout.
+        if "CD007" in str(exc) or "authentication is locked" in str(exc):
+            raise
+        message = str(exc)
+        print(
+            f"[QUERY FAILED] date={day} dataset={dataset} market={market}: {message}",
+            flush=True,
+        )
+        item = {
+            "date": day,
+            "dataset": dataset,
+            "market": market,
+            "rows": "0",
+            "status": "failed",
+            "error": message[:1000],
+        }
+        status.append(item.copy())
+        failures.append(item.copy())
+        return pd.DataFrame()
 
 
 def add_query_metadata(df: pd.DataFrame, day: str, market: str) -> pd.DataFrame:
@@ -102,7 +155,6 @@ def merge_and_save(path: Path, fresh_frames: list[pd.DataFrame]) -> int:
         print(f"[WARN] No recognizable ticker-code column in {path.name}; deduplicating full rows.")
         keys = None
 
-    before = len(combined)
     combined = combined.drop_duplicates(subset=keys, keep="last") if keys else combined.drop_duplicates()
     combined = combined.sort_values(
         [c for c in ("_query_date", "_query_market") if c in combined.columns]
@@ -121,8 +173,6 @@ def main() -> int:
     configured_start = parse_date(os.getenv("SHORTING_START_DATE", START_DEFAULT))
 
     if mode == "incremental":
-        # Re-fetch the recent 10 calendar days to fill the KRX T+2 balance lag
-        # and retry dates that may have been temporarily unavailable.
         start = max(configured_start, end - timedelta(days=10))
     elif mode == "backfill":
         start = configured_start
@@ -138,48 +188,53 @@ def main() -> int:
     balance_frames: list[pd.DataFrame] = []
     price_frames: list[pd.DataFrame] = []
     status: list[dict[str, str]] = []
+    failures: list[dict[str, str]] = []
     total_calls = 0
 
     for day in date_range(start, end):
         day_text = day.strftime("%Y%m%d")
         print(f"[DATE] {day_text}", flush=True)
 
-        # Daily short-selling transactions, separately by market.
         for market in MARKETS:
-            df = fetch_retry("short_selling_individual", trdDd=day_text, mktId=market)
             total_calls += 1
-            tagged = add_query_metadata(df, day_text, market)
+            tagged = safe_fetch(
+                "short_selling_individual",
+                day=day_text,
+                dataset="short_volume",
+                market=market,
+                params={"trdDd": day_text, "mktId": market},
+                status=status,
+                failures=failures,
+            )
             if not tagged.empty:
                 volume_frames.append(tagged)
-            status.append({
-                "date": day_text, "dataset": "short_volume", "market": market,
-                "rows": str(len(tagged)), "status": "ok" if not tagged.empty else "empty_or_holiday",
-            })
 
-        # Daily net short-position balances; these are normally published T+2.
         for market, market_code in MARKETS.items():
-            df = fetch_retry(
-                "short_balance_individual", trdDd=day_text, mktTpCd=market_code
-            )
             total_calls += 1
-            tagged = add_query_metadata(df, day_text, market)
+            tagged = safe_fetch(
+                "short_balance_individual",
+                day=day_text,
+                dataset="short_balance",
+                market=market,
+                params={"trdDd": day_text, "mktTpCd": market_code},
+                status=status,
+                failures=failures,
+            )
             if not tagged.empty:
                 balance_frames.append(tagged)
-            status.append({
-                "date": day_text, "dataset": "short_balance", "market": market,
-                "rows": str(len(tagged)), "status": "ok" if not tagged.empty else "not_yet_reported_or_empty",
-            })
 
-        # All-market daily OHLCV snapshot, to align price movement with short activity.
-        df = fetch_retry("all_stock_price", trdDd=day_text, mktId="ALL")
         total_calls += 1
-        tagged = add_query_metadata(df, day_text, "ALL")
+        tagged = safe_fetch(
+            "all_stock_price",
+            day=day_text,
+            dataset="daily_prices",
+            market="ALL",
+            params={"trdDd": day_text, "mktId": "ALL"},
+            status=status,
+            failures=failures,
+        )
         if not tagged.empty:
             price_frames.append(tagged)
-        status.append({
-            "date": day_text, "dataset": "daily_prices", "market": "ALL",
-            "rows": str(len(tagged)), "status": "ok" if not tagged.empty else "empty_or_holiday",
-        })
 
     volume_count = merge_and_save(FILES["short_volume"], volume_frames)
     balance_count = merge_and_save(FILES["short_balance"], balance_frames)
@@ -187,16 +242,24 @@ def main() -> int:
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     status_path = OUTPUT_DIR / "shorting_collection_status.csv"
+    failures_path = OUTPUT_DIR / "shorting_collection_failures.csv"
     pd.DataFrame(status).to_csv(status_path, index=False, encoding="utf-8-sig")
+    pd.DataFrame(
+        failures,
+        columns=["date", "dataset", "market", "rows", "status", "error"],
+    ).to_csv(failures_path, index=False, encoding="utf-8-sig")
 
+    failed_count = len(failures)
     summary = (
         "KRX 공매도 백테스트 데이터 수집 결과\n"
         f"모드: {mode}\n기간: {start:%Y-%m-%d} ~ {end:%Y-%m-%d}\n"
         f"KRX 요청 수: {total_calls}\n"
+        f"실패 요청 수: {failed_count}\n"
         f"공매도 거래 누적 행: {volume_count:,}\n"
         f"공매도 잔고 누적 행: {balance_count:,}\n"
         f"전종목 주가 누적 행: {price_count:,}\n"
         "시장: KOSPI / KOSDAQ / KONEX\n"
+        "실패 요청은 output/shorting_collection_failures.csv에 별도 기록했습니다.\n"
         "참고: 공매도 순보유잔고는 보고 기준에 따른 T+2 지연 데이터이며, "
         "보고의무 기준 미만 잔고는 포함되지 않을 수 있습니다.\n"
     )
@@ -204,14 +267,14 @@ def main() -> int:
     summary_path.write_text(summary, encoding="utf-8")
     print(summary, flush=True)
 
-    # Send a concise completion message through the repository's existing Telegram helper.
     try:
         from Alerts import emit_alert
-        emit_alert("공매도 백테스트 데이터 수집 완료", summary)
+        title = "공매도 백테스트 데이터 수집 완료" if failed_count == 0 else "공매도 데이터 수집 부분 완료"
+        emit_alert(title, summary)
     except Exception as exc:
         print(f"[WARN] Telegram notification was not sent: {exc}", flush=True)
 
-    return 0
+    return 0 if failed_count == 0 else 2
 
 
 if __name__ == "__main__":
