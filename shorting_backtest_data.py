@@ -113,6 +113,16 @@ def safe_fetch(
         # Authentication locks are account-wide; continuing would only create
         # more failed requests and may worsen the lockout.
         if krx_auth_failure_kind(str(exc)) or "authentication is locked" in str(exc).lower():
+            item = {
+                "date": day,
+                "dataset": dataset,
+                "market": market,
+                "rows": "0",
+                "status": "fatal_auth_stop",
+                "error": "KRX login/session authentication failed; stopped to prevent repeated login attempts.",
+            }
+            status.append(item.copy())
+            failures.append(item.copy())
             raise
         message = str(exc)
         print(
@@ -209,50 +219,59 @@ def main() -> int:
     failures: list[dict[str, str]] = []
     total_calls = 0
 
-    for day in date_range(start, end):
-        day_text = day.strftime("%Y%m%d")
-        print(f"[DATE] {day_text}", flush=True)
+    fatal_error: RuntimeError | None = None
+    try:
+        for day in date_range(start, end):
+            day_text = day.strftime("%Y%m%d")
+            print(f"[DATE] {day_text}", flush=True)
 
-        for market in MARKETS:
+            for market in MARKETS:
+                total_calls += 1
+                tagged = safe_fetch(
+                    "short_selling_individual",
+                    day=day_text,
+                    dataset="short_volume",
+                    market=market,
+                    params={"trdDd": day_text, "mktId": market},
+                    status=status,
+                    failures=failures,
+                )
+                if not tagged.empty:
+                    volume_frames.append(tagged)
+
+            for market, market_code in MARKETS.items():
+                total_calls += 1
+                tagged = safe_fetch(
+                    "short_balance_individual",
+                    day=day_text,
+                    dataset="short_balance",
+                    market=market,
+                    params={"trdDd": day_text, "mktTpCd": market_code},
+                    status=status,
+                    failures=failures,
+                )
+                if not tagged.empty:
+                    balance_frames.append(tagged)
+
             total_calls += 1
             tagged = safe_fetch(
-                "short_selling_individual",
+                "all_stock_price",
                 day=day_text,
-                dataset="short_volume",
-                market=market,
-                params={"trdDd": day_text, "mktId": market},
+                dataset="daily_prices",
+                market="ALL",
+                params={"trdDd": day_text, "mktId": "ALL"},
                 status=status,
                 failures=failures,
             )
             if not tagged.empty:
-                volume_frames.append(tagged)
+                price_frames.append(tagged)
 
-        for market, market_code in MARKETS.items():
-            total_calls += 1
-            tagged = safe_fetch(
-                "short_balance_individual",
-                day=day_text,
-                dataset="short_balance",
-                market=market,
-                params={"trdDd": day_text, "mktTpCd": market_code},
-                status=status,
-                failures=failures,
-            )
-            if not tagged.empty:
-                balance_frames.append(tagged)
-
-        total_calls += 1
-        tagged = safe_fetch(
-            "all_stock_price",
-            day=day_text,
-            dataset="daily_prices",
-            market="ALL",
-            params={"trdDd": day_text, "mktId": "ALL"},
-            status=status,
-            failures=failures,
+    except RuntimeError as exc:
+        fatal_error = exc
+        print(
+            "[AUTH STOP] KRX authentication/session failure; preserving already collected rows and stopping further requests.",
+            flush=True,
         )
-        if not tagged.empty:
-            price_frames.append(tagged)
 
     volume_count = merge_and_save(FILES["short_volume"], volume_frames)
     balance_count = merge_and_save(FILES["short_balance"], balance_frames)
@@ -273,6 +292,7 @@ def main() -> int:
         f"모드: {mode}\n기간: {start:%Y-%m-%d} ~ {end:%Y-%m-%d}\n"
         f"KRX 요청 수: {total_calls}\n"
         f"실패 요청 수: {failed_count}\n"
+        f"치명 인증 중단: {'예' if fatal_error else '아니오'}\n"
         f"공매도 거래 누적 행: {volume_count:,}\n"
         f"공매도 잔고 누적 행: {balance_count:,}\n"
         f"전종목 주가 누적 행: {price_count:,}\n"
