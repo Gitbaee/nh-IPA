@@ -48,14 +48,6 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || secrets.CHAT_ID }}
         run: python main.py --bollinger
 
-      - name: Run OpenDART disclosure monitor (daily at 16:00 KST or manual)
-        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 7 * * 1-5'
-        env:
-          DART_API_KEY: ${{ secrets.DART_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TELEGRAM_TOKEN || secrets.BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || secrets.CHAT_ID }}
-        run: python dart_monitor.py
-
       - name: Upload summary
         if: always()
         uses: actions/upload-artifact@v4
