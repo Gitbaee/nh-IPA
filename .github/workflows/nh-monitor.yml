@@ -37,6 +37,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Validate Python and watchlist
+        run: |
+          python -m compileall -q .
+          python -m json.tool config/bollinger_watchlist.json > /dev/null
+
       - name: Run monitor and send Telegram alert
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TELEGRAM_TOKEN || secrets.BOT_TOKEN }}
