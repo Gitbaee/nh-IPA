@@ -239,6 +239,9 @@ def fetch_date(client: LendingClient, day: str) -> tuple[list[dict], int, int]:
         all_rows.extend(rows)
     if len(all_rows) != total:
         raise LendingAPIError("PAGINATION", "Fetched row count does not match totalCount.")
+    isin_values = [str(row.get("isinCd", "")) for row in all_rows]
+    if len(set(isin_values)) != len(isin_values):
+        raise LendingAPIError("PAGINATION", "Duplicate ISINs across pages; refusing an ambiguous daily snapshot.")
     collected_at = kst_now()
     for row in all_rows:
         row["_collected_at"] = collected_at
