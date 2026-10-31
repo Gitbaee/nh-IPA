@@ -197,4 +197,22 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as exc:
+        # 수집 실패를 '공시 0건'으로 오인하지 않도록 텔레그램 오류 알림을 보냅니다.
+        try:
+            from Alerts import emit_alert
+            failed_at = datetime.now(SEOUL).strftime("%Y-%m-%d %H:%M KST")
+            emit_alert(
+                "DART 공시 감시 오류",
+                f"실행 시각: {failed_at}\n"
+                f"조회 결과: 확인 불가 (공시 0건이 아닙니다)\n"
+                f"오류: {type(exc).__name__}: {str(exc)[:1500]}",
+            )
+        except Exception as notify_exc:
+            print(
+                "DART 오류 텔레그램 전송도 실패했습니다: "
+                f"{type(notify_exc).__name__}: {notify_exc}"
+            )
+        raise
