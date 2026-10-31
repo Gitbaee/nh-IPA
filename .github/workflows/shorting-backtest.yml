@@ -38,6 +38,7 @@ jobs:
       PYTHONUNBUFFERED: "1"
       KRX_ID: ${{ secrets.KRX_ID }}
       KRX_PW: ${{ secrets.KRX_PW }}
+      KRX_LENDING_API_KEY: ${{ secrets.KRX_LENDING_API_KEY }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TELEGRAM_TOKEN || secrets.BOT_TOKEN }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || secrets.CHAT_ID }}
       SHORTING_MODE: ${{ github.event_name == 'schedule' && 'incremental' || inputs.mode || 'backfill' }}
@@ -62,6 +63,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install git+https://github.com/beaten-by-the-market/krx-data-api.git
+
+      - name: Validate configured lending API secret (presence only)
+        shell: bash
+        run: |
+          if [[ -n "${KRX_LENDING_API_KEY:-}" ]]; then
+            echo "KRX_LENDING_API_KEY is configured."
+          else
+            echo "::warning::KRX_LENDING_API_KEY is not configured; lending collection will remain unavailable."
+          fi
 
       - name: Validate Python
         run: python -m py_compile shorting_backtest_data.py Alerts.py
