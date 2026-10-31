@@ -39,7 +39,7 @@ EXPECTED_FIELDS = {
 }
 START_DEFAULT = "20260501"
 PAGE_SIZE = max(1, min(int(os.getenv("LENDING_PAGE_SIZE", "100")), 1000))
-REQUEST_INTERVAL = max(0.2, float(os.getenv("LENDING_REQUEST_INTERVAL", "0.5")))
+REQUEST_INTERVAL = max(0.5, float(os.getenv("LENDING_REQUEST_INTERVAL", "1.0")))
 TIMEOUT = (10, 45)
 KST = ZoneInfo("Asia/Seoul")
 
@@ -194,8 +194,14 @@ class LendingClient:
                     f"HTTP_{response.status_code}",
                     "API response was not JSON; response body was withheld from logs.",
                 )
-            total, rows, _ = parse_response(payload, bas_dt)
-            return total, rows
+            try:
+                total, rows, _ = parse_response(payload, bas_dt)
+                return total, rows
+            except LendingAPIError as exc:
+                if exc.code in {"01", "02", "04", "05", "23"} and attempt < 3:
+                    time.sleep(attempt * 3)
+                    continue
+                raise
         raise LendingAPIError(last_code, "API request failed.")
 
     def probe(self, end: date) -> str:
@@ -260,8 +266,11 @@ def save_data(fresh_rows: list[dict]) -> tuple[int, int, int, int, str, str]:
         valid_isin_rows = int(combined["isinCd"].astype(str).str.fullmatch(r"KR[A-Z0-9]{10}", na=False).sum())
     else:
         valid_isin_rows = 0
-    required_present = [field for field in EXPECTED_FIELDS if field in combined.columns]
-    missing_required = int(combined[required_present].isna().any(axis=1).sum()) if required_present else len(combined)
+    missing_fields = [field for field in EXPECTED_FIELDS if field not in combined.columns]
+    if missing_fields:
+        missing_required = len(combined)
+    else:
+        missing_required = int(combined[list(EXPECTED_FIELDS)].isna().any(axis=1).sum())
     dates = combined["basDt"].dropna().astype(str) if "basDt" in combined.columns else pd.Series(dtype=str)
     return (
         len(combined),
