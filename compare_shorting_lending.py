@@ -177,10 +177,19 @@ def main() -> int:
 
     prepared = []
     methods = []
+    skipped = []
     for name, frame in datasets:
-        keyed, method = prepare_dataset(frame, name, crosswalk)
-        prepared.append(keyed)
-        methods.append(f"{name}={method}")
+        try:
+            keyed, method = prepare_dataset(frame, name, crosswalk)
+            prepared.append(keyed)
+            methods.append(f"{name}={method}")
+        except ValueError as exc:
+            skipped.append(f"{name}: {exc}")
+            if name == "lending":
+                raise
+
+    if not any(name in method for name in ("short_volume=", "short_balance=") for method in methods):
+        raise ValueError("No short-selling dataset could be joined by a reliable ISIN.")
 
     merged = prepared[0]
     for frame in prepared[1:]:
@@ -218,6 +227,7 @@ def main() -> int:
         f"기준일 범위: {merged['trade_date'].min()} ~ {merged['trade_date'].max()}\n"
         f"결합 키: 기준일 + ISIN (종목명으로 결합하지 않음)\n"
         f"ISIN 확인 방법: {'; '.join(methods)}\n"
+        f"결합 제외 자료: {'; '.join(skipped) if skipped else '없음'}\n"
         f"대차+공매도 일치: {status_counts.get('lending_and_shorting', 0):,}\n"
         f"대차만 존재: {status_counts.get('lending_only', 0):,}\n"
         f"공매도만 존재: {status_counts.get('shorting_only', 0):,}\n"
