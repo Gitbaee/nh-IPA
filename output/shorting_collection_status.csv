@@ -1,0 +1,918 @@
+﻿date,dataset,market,rows,status,error
+20260501,short_volume,STK,0,empty_or_unreported,
+20260501,short_volume,KSQ,0,empty_or_unreported,
+20260501,short_volume,KNX,0,empty_or_unreported,
+20260501,short_balance,STK,0,empty_or_unreported,
+20260501,short_balance,KSQ,0,empty_or_unreported,
+20260501,short_balance,KNX,0,empty_or_unreported,
+20260501,daily_prices,ALL,2882,ok,
+20260504,short_volume,STK,1019,ok,
+20260504,short_volume,KSQ,1827,ok,
+20260504,short_volume,KNX,110,ok,
+20260504,short_balance,STK,948,ok,
+20260504,short_balance,KSQ,1823,ok,
+20260504,short_balance,KNX,110,ok,
+20260504,daily_prices,ALL,2881,ok,
+20260505,short_volume,STK,0,empty_or_unreported,
+20260505,short_volume,KSQ,0,empty_or_unreported,
+20260505,short_volume,KNX,0,empty_or_unreported,
+20260505,short_balance,STK,0,empty_or_unreported,
+20260505,short_balance,KSQ,0,empty_or_unreported,
+20260505,short_balance,KNX,0,empty_or_unreported,
+20260505,daily_prices,ALL,2881,ok,
+20260506,short_volume,STK,1018,ok,
+20260506,short_volume,KSQ,1827,ok,
+20260506,short_volume,KNX,110,ok,
+20260506,short_balance,STK,948,ok,
+20260506,short_balance,KSQ,1823,ok,
+20260506,short_balance,KNX,110,ok,
+20260506,daily_prices,ALL,2881,ok,
+20260507,short_volume,STK,1018,ok,
+20260507,short_volume,KSQ,1825,ok,
+20260507,short_volume,KNX,110,ok,
+20260507,short_balance,STK,948,ok,
+20260507,short_balance,KSQ,1822,ok,
+20260507,short_balance,KNX,110,ok,
+20260507,daily_prices,ALL,2880,ok,
+20260508,short_volume,STK,1018,ok,
+20260508,short_volume,KSQ,1823,ok,
+20260508,short_volume,KNX,110,ok,
+20260508,short_balance,STK,948,ok,
+20260508,short_balance,KSQ,1820,ok,
+20260508,short_balance,KNX,110,ok,
+20260508,daily_prices,ALL,2878,ok,
+20260511,short_volume,STK,1018,ok,
+20260511,short_volume,KSQ,1824,ok,
+20260511,short_volume,KNX,110,ok,
+20260511,short_balance,STK,948,ok,
+20260511,short_balance,KSQ,1821,ok,
+20260511,short_balance,KNX,110,ok,
+20260511,daily_prices,ALL,2879,ok,
+20260512,short_volume,STK,1018,ok,
+20260512,short_volume,KSQ,1824,ok,
+20260512,short_volume,KNX,110,ok,
+20260512,short_balance,STK,948,ok,
+20260512,short_balance,KSQ,1821,ok,
+20260512,short_balance,KNX,110,ok,
+20260512,daily_prices,ALL,2879,ok,
+20260513,short_volume,STK,1018,ok,
+20260513,short_volume,KSQ,1824,ok,
+20260513,short_volume,KNX,110,ok,
+20260513,short_balance,STK,948,ok,
+20260513,short_balance,KSQ,1821,ok,
+20260513,short_balance,KNX,110,ok,
+20260513,daily_prices,ALL,2879,ok,
+20260514,short_volume,STK,1020,ok,
+20260514,short_volume,KSQ,1824,ok,
+20260514,short_volume,KNX,109,ok,
+20260514,short_balance,STK,948,ok,
+20260514,short_balance,KSQ,1822,ok,
+20260514,short_balance,KNX,109,ok,
+20260514,daily_prices,ALL,2879,ok,
+20260515,short_volume,STK,1020,ok,
+20260515,short_volume,KSQ,1824,ok,
+20260515,short_volume,KNX,109,ok,
+20260515,short_balance,STK,948,ok,
+20260515,short_balance,KSQ,1822,ok,
+20260515,short_balance,KNX,109,ok,
+20260515,daily_prices,ALL,2879,ok,
+20260518,short_volume,STK,1020,ok,
+20260518,short_volume,KSQ,1825,ok,
+20260518,short_volume,KNX,109,ok,
+20260518,short_balance,STK,948,ok,
+20260518,short_balance,KSQ,1822,ok,
+20260518,short_balance,KNX,109,ok,
+20260518,daily_prices,ALL,2879,ok,
+20260519,short_volume,STK,1020,ok,
+20260519,short_volume,KSQ,1824,ok,
+20260519,short_volume,KNX,109,ok,
+20260519,short_balance,STK,948,ok,
+20260519,short_balance,KSQ,1821,ok,
+20260519,short_balance,KNX,109,ok,
+20260519,daily_prices,ALL,2878,ok,
+20260520,short_volume,STK,1020,ok,
+20260520,short_volume,KSQ,1825,ok,
+20260520,short_volume,KNX,108,ok,
+20260520,short_balance,STK,948,ok,
+20260520,short_balance,KSQ,1822,ok,
+20260520,short_balance,KNX,108,ok,
+20260520,daily_prices,ALL,2878,ok,
+20260521,short_volume,STK,1020,ok,
+20260521,short_volume,KSQ,1825,ok,
+20260521,short_volume,KNX,108,ok,
+20260521,short_balance,STK,948,ok,
+20260521,short_balance,KSQ,1822,ok,
+20260521,short_balance,KNX,108,ok,
+20260521,daily_prices,ALL,2878,ok,
+20260522,short_volume,STK,1020,ok,
+20260522,short_volume,KSQ,1825,ok,
+20260522,short_volume,KNX,108,ok,
+20260522,short_balance,STK,948,ok,
+20260522,short_balance,KSQ,1822,ok,
+20260522,short_balance,KNX,108,ok,
+20260522,daily_prices,ALL,2878,ok,
+20260525,short_volume,STK,0,empty_or_unreported,
+20260525,short_volume,KSQ,0,empty_or_unreported,
+20260525,short_volume,KNX,0,empty_or_unreported,
+20260525,short_balance,STK,0,empty_or_unreported,
+20260525,short_balance,KSQ,0,empty_or_unreported,
+20260525,short_balance,KNX,0,empty_or_unreported,
+20260525,daily_prices,ALL,2878,ok,
+20260526,short_volume,STK,1020,ok,
+20260526,short_volume,KSQ,1824,ok,
+20260526,short_volume,KNX,108,ok,
+20260526,short_balance,STK,948,ok,
+20260526,short_balance,KSQ,1822,ok,
+20260526,short_balance,KNX,108,ok,
+20260526,daily_prices,ALL,2878,ok,
+20260527,short_volume,STK,1020,ok,
+20260527,short_volume,KSQ,1824,ok,
+20260527,short_volume,KNX,108,ok,
+20260527,short_balance,STK,948,ok,
+20260527,short_balance,KSQ,1822,ok,
+20260527,short_balance,KNX,108,ok,
+20260527,daily_prices,ALL,2878,ok,
+20260528,short_volume,STK,1020,ok,
+20260528,short_volume,KSQ,1824,ok,
+20260528,short_volume,KNX,108,ok,
+20260528,short_balance,STK,948,ok,
+20260528,short_balance,KSQ,1822,ok,
+20260528,short_balance,KNX,108,ok,
+20260528,daily_prices,ALL,2878,ok,
+20260529,short_volume,STK,1020,ok,
+20260529,short_volume,KSQ,1824,ok,
+20260529,short_volume,KNX,108,ok,
+20260529,short_balance,STK,948,ok,
+20260529,short_balance,KSQ,1822,ok,
+20260529,short_balance,KNX,108,ok,
+20260529,daily_prices,ALL,2878,ok,
+20260601,short_volume,STK,1020,ok,
+20260601,short_volume,KSQ,1824,ok,
+20260601,short_volume,KNX,107,ok,
+20260601,short_balance,STK,948,ok,
+20260601,short_balance,KSQ,1822,ok,
+20260601,short_balance,KNX,107,ok,
+20260601,daily_prices,ALL,2877,ok,
+20260602,short_volume,STK,1020,ok,
+20260602,short_volume,KSQ,1825,ok,
+20260602,short_volume,KNX,107,ok,
+20260602,short_balance,STK,948,ok,
+20260602,short_balance,KSQ,1822,ok,
+20260602,short_balance,KNX,107,ok,
+20260602,daily_prices,ALL,2877,ok,
+20260603,short_volume,STK,0,empty_or_unreported,
+20260603,short_volume,KSQ,0,empty_or_unreported,
+20260603,short_volume,KNX,0,empty_or_unreported,
+20260603,short_balance,STK,0,empty_or_unreported,
+20260603,short_balance,KSQ,0,empty_or_unreported,
+20260603,short_balance,KNX,0,empty_or_unreported,
+20260603,daily_prices,ALL,2877,ok,
+20260604,short_volume,STK,1020,ok,
+20260604,short_volume,KSQ,1826,ok,
+20260604,short_volume,KNX,107,ok,
+20260604,short_balance,STK,948,ok,
+20260604,short_balance,KSQ,1822,ok,
+20260604,short_balance,KNX,107,ok,
+20260604,daily_prices,ALL,2877,ok,
+20260605,short_volume,STK,1020,ok,
+20260605,short_volume,KSQ,1827,ok,
+20260605,short_volume,KNX,107,ok,
+20260605,short_balance,STK,948,ok,
+20260605,short_balance,KSQ,1822,ok,
+20260605,short_balance,KNX,107,ok,
+20260605,daily_prices,ALL,2877,ok,
+20260608,short_volume,STK,1020,ok,
+20260608,short_volume,KSQ,1828,ok,
+20260608,short_volume,KNX,107,ok,
+20260608,short_balance,STK,948,ok,
+20260608,short_balance,KSQ,1823,ok,
+20260608,short_balance,KNX,107,ok,
+20260608,daily_prices,ALL,2878,ok,
+20260609,short_volume,STK,1020,ok,
+20260609,short_volume,KSQ,1827,ok,
+20260609,short_volume,KNX,107,ok,
+20260609,short_balance,STK,948,ok,
+20260609,short_balance,KSQ,1822,ok,
+20260609,short_balance,KNX,107,ok,
+20260609,daily_prices,ALL,2877,ok,
+20260610,short_volume,STK,1019,ok,
+20260610,short_volume,KSQ,1826,ok,
+20260610,short_volume,KNX,107,ok,
+20260610,short_balance,STK,947,ok,
+20260610,short_balance,KSQ,1822,ok,
+20260610,short_balance,KNX,107,ok,
+20260610,daily_prices,ALL,2876,ok,
+20260611,short_volume,STK,1019,ok,
+20260611,short_volume,KSQ,1825,ok,
+20260611,short_volume,KNX,107,ok,
+20260611,short_balance,STK,947,ok,
+20260611,short_balance,KSQ,1822,ok,
+20260611,short_balance,KNX,107,ok,
+20260611,daily_prices,ALL,2876,ok,
+20260612,short_volume,STK,1018,ok,
+20260612,short_volume,KSQ,1824,ok,
+20260612,short_volume,KNX,107,ok,
+20260612,short_balance,STK,946,ok,
+20260612,short_balance,KSQ,1822,ok,
+20260612,short_balance,KNX,107,ok,
+20260612,daily_prices,ALL,2875,ok,
+20260615,short_volume,STK,1018,ok,
+20260615,short_volume,KSQ,1824,ok,
+20260615,short_volume,KNX,107,ok,
+20260615,short_balance,STK,946,ok,
+20260615,short_balance,KSQ,1822,ok,
+20260615,short_balance,KNX,107,ok,
+20260615,daily_prices,ALL,2875,ok,
+20260616,short_volume,STK,1018,ok,
+20260616,short_volume,KSQ,1824,ok,
+20260616,short_volume,KNX,107,ok,
+20260616,short_balance,STK,946,ok,
+20260616,short_balance,KSQ,1822,ok,
+20260616,short_balance,KNX,107,ok,
+20260616,daily_prices,ALL,2875,ok,
+20260617,short_volume,STK,1018,ok,
+20260617,short_volume,KSQ,1824,ok,
+20260617,short_volume,KNX,107,ok,
+20260617,short_balance,STK,946,ok,
+20260617,short_balance,KSQ,1822,ok,
+20260617,short_balance,KNX,107,ok,
+20260617,daily_prices,ALL,2875,ok,
+20260618,short_volume,STK,1018,ok,
+20260618,short_volume,KSQ,1823,ok,
+20260618,short_volume,KNX,107,ok,
+20260618,short_balance,STK,946,ok,
+20260618,short_balance,KSQ,1821,ok,
+20260618,short_balance,KNX,107,ok,
+20260618,daily_prices,ALL,2874,ok,
+20260619,short_volume,STK,1018,ok,
+20260619,short_volume,KSQ,1825,ok,
+20260619,short_volume,KNX,107,ok,
+20260619,short_balance,STK,946,ok,
+20260619,short_balance,KSQ,1822,ok,
+20260619,short_balance,KNX,107,ok,
+20260619,daily_prices,ALL,2875,ok,
+20260622,short_volume,STK,1018,ok,
+20260622,short_volume,KSQ,1825,ok,
+20260622,short_volume,KNX,107,ok,
+20260622,short_balance,STK,946,ok,
+20260622,short_balance,KSQ,1822,ok,
+20260622,short_balance,KNX,107,ok,
+20260622,daily_prices,ALL,2875,ok,
+20260623,short_volume,STK,1018,ok,
+20260623,short_volume,KSQ,1825,ok,
+20260623,short_volume,KNX,107,ok,
+20260623,short_balance,STK,946,ok,
+20260623,short_balance,KSQ,1822,ok,
+20260623,short_balance,KNX,107,ok,
+20260623,daily_prices,ALL,2875,ok,
+20260624,short_volume,STK,1018,ok,
+20260624,short_volume,KSQ,1826,ok,
+20260624,short_volume,KNX,107,ok,
+20260624,short_balance,STK,946,ok,
+20260624,short_balance,KSQ,1822,ok,
+20260624,short_balance,KNX,107,ok,
+20260624,daily_prices,ALL,2875,ok,
+20260625,short_volume,STK,1018,ok,
+20260625,short_volume,KSQ,1826,ok,
+20260625,short_volume,KNX,107,ok,
+20260625,short_balance,STK,946,ok,
+20260625,short_balance,KSQ,1822,ok,
+20260625,short_balance,KNX,107,ok,
+20260625,daily_prices,ALL,2875,ok,
+20260626,short_volume,STK,1019,ok,
+20260626,short_volume,KSQ,1824,ok,
+20260626,short_volume,KNX,107,ok,
+20260626,short_balance,STK,946,ok,
+20260626,short_balance,KSQ,1822,ok,
+20260626,short_balance,KNX,107,ok,
+20260626,daily_prices,ALL,2875,ok,
+20260629,short_volume,STK,1019,ok,
+20260629,short_volume,KSQ,1825,ok,
+20260629,short_volume,KNX,107,ok,
+20260629,short_balance,STK,946,ok,
+20260629,short_balance,KSQ,1823,ok,
+20260629,short_balance,KNX,107,ok,
+20260629,daily_prices,ALL,2876,ok,
+20260630,short_volume,STK,1018,ok,
+20260630,short_volume,KSQ,1826,ok,
+20260630,short_volume,KNX,107,ok,
+20260630,short_balance,STK,945,ok,
+20260630,short_balance,KSQ,1824,ok,
+20260630,short_balance,KNX,107,ok,
+20260630,daily_prices,ALL,2876,ok,
+20260701,short_volume,STK,1018,ok,
+20260701,short_volume,KSQ,1822,ok,
+20260701,short_volume,KNX,107,ok,
+20260701,short_balance,STK,945,ok,
+20260701,short_balance,KSQ,1821,ok,
+20260701,short_balance,KNX,107,ok,
+20260701,daily_prices,ALL,2873,ok,
+20260702,short_volume,STK,1018,ok,
+20260702,short_volume,KSQ,1823,ok,
+20260702,short_volume,KNX,107,ok,
+20260702,short_balance,STK,945,ok,
+20260702,short_balance,KSQ,1821,ok,
+20260702,short_balance,KNX,107,ok,
+20260702,daily_prices,ALL,2873,ok,
+20260703,short_volume,STK,1013,ok,
+20260703,short_volume,KSQ,1823,ok,
+20260703,short_volume,KNX,107,ok,
+20260703,short_balance,STK,945,ok,
+20260703,short_balance,KSQ,1821,ok,
+20260703,short_balance,KNX,107,ok,
+20260703,daily_prices,ALL,2873,ok,
+20260706,short_volume,STK,1014,ok,
+20260706,short_volume,KSQ,1824,ok,
+20260706,short_volume,KNX,107,ok,
+20260706,short_balance,STK,945,ok,
+20260706,short_balance,KSQ,1822,ok,
+20260706,short_balance,KNX,107,ok,
+20260706,daily_prices,ALL,2874,ok,
+20260707,short_volume,STK,1014,ok,
+20260707,short_volume,KSQ,1823,ok,
+20260707,short_volume,KNX,107,ok,
+20260707,short_balance,STK,945,ok,
+20260707,short_balance,KSQ,1821,ok,
+20260707,short_balance,KNX,107,ok,
+20260707,daily_prices,ALL,2873,ok,
+20260708,short_volume,STK,1020,ok,
+20260708,short_volume,KSQ,1822,ok,
+20260708,short_volume,KNX,107,ok,
+20260708,short_balance,STK,945,ok,
+20260708,short_balance,KSQ,1820,ok,
+20260708,short_balance,KNX,107,ok,
+20260708,daily_prices,ALL,2872,ok,
+20260709,short_volume,STK,1020,ok,
+20260709,short_volume,KSQ,1822,ok,
+20260709,short_volume,KNX,107,ok,
+20260709,short_balance,STK,945,ok,
+20260709,short_balance,KSQ,1820,ok,
+20260709,short_balance,KNX,107,ok,
+20260709,daily_prices,ALL,2872,ok,
+20260710,short_volume,STK,1020,ok,
+20260710,short_volume,KSQ,1823,ok,
+20260710,short_volume,KNX,107,ok,
+20260710,short_balance,STK,945,ok,
+20260710,short_balance,KSQ,1820,ok,
+20260710,short_balance,KNX,107,ok,
+20260710,daily_prices,ALL,2872,ok,
+20260713,short_volume,STK,1019,ok,
+20260713,short_volume,KSQ,1824,ok,
+20260713,short_volume,KNX,107,ok,
+20260713,short_balance,STK,945,ok,
+20260713,short_balance,KSQ,1821,ok,
+20260713,short_balance,KNX,107,ok,
+20260713,daily_prices,ALL,2873,ok,
+20260714,short_volume,STK,1019,ok,
+20260714,short_volume,KSQ,1824,ok,
+20260714,short_volume,KNX,107,ok,
+20260714,short_balance,STK,945,ok,
+20260714,short_balance,KSQ,1821,ok,
+20260714,short_balance,KNX,107,ok,
+20260714,daily_prices,ALL,2873,ok,
+20260715,short_volume,STK,1018,ok,
+20260715,short_volume,KSQ,1824,ok,
+20260715,short_volume,KNX,107,ok,
+20260715,short_balance,STK,944,ok,
+20260715,short_balance,KSQ,1821,ok,
+20260715,short_balance,KNX,107,ok,
+20260715,daily_prices,ALL,2872,ok,
+20260716,short_volume,STK,1022,ok,
+20260716,short_volume,KSQ,1824,ok,
+20260716,short_volume,KNX,107,ok,
+20260716,short_balance,STK,944,ok,
+20260716,short_balance,KSQ,1821,ok,
+20260716,short_balance,KNX,107,ok,
+20260716,daily_prices,ALL,2872,ok,
+20260717,short_volume,STK,0,empty_or_unreported,
+20260717,short_volume,KSQ,0,empty_or_unreported,
+20260717,short_volume,KNX,0,empty_or_unreported,
+20260717,short_balance,STK,0,empty_or_unreported,
+20260717,short_balance,KSQ,0,empty_or_unreported,
+20260717,short_balance,KNX,0,empty_or_unreported,
+20260717,daily_prices,ALL,2872,ok,
+20260720,short_volume,STK,1021,ok,
+20260720,short_volume,KSQ,1823,ok,
+20260720,short_volume,KNX,107,ok,
+20260720,short_balance,STK,943,ok,
+20260720,short_balance,KSQ,1821,ok,
+20260720,short_balance,KNX,107,ok,
+20260720,daily_prices,ALL,2871,ok,
+20260721,short_volume,STK,1021,ok,
+20260721,short_volume,KSQ,1824,ok,
+20260721,short_volume,KNX,108,ok,
+20260721,short_balance,STK,943,ok,
+20260721,short_balance,KSQ,1821,ok,
+20260721,short_balance,KNX,108,ok,
+20260721,daily_prices,ALL,2872,ok,
+20260722,short_volume,STK,1021,ok,
+20260722,short_volume,KSQ,1825,ok,
+20260722,short_volume,KNX,108,ok,
+20260722,short_balance,STK,943,ok,
+20260722,short_balance,KSQ,1821,ok,
+20260722,short_balance,KNX,108,ok,
+20260722,daily_prices,ALL,2872,ok,
+20260723,short_volume,STK,1021,ok,
+20260723,short_volume,KSQ,1825,ok,
+20260723,short_volume,KNX,108,ok,
+20260723,short_balance,STK,943,ok,
+20260723,short_balance,KSQ,1821,ok,
+20260723,short_balance,KNX,108,ok,
+20260723,daily_prices,ALL,2872,ok,
+20260724,short_volume,STK,1021,ok,
+20260724,short_volume,KSQ,1824,ok,
+20260724,short_volume,KNX,108,ok,
+20260724,short_balance,STK,943,ok,
+20260724,short_balance,KSQ,1821,ok,
+20260724,short_balance,KNX,108,ok,
+20260724,daily_prices,ALL,2872,ok,
+20260727,short_volume,STK,1021,ok,
+20260727,short_volume,KSQ,1825,ok,
+20260727,short_volume,KNX,108,ok,
+20260727,short_balance,STK,943,ok,
+20260727,short_balance,KSQ,1822,ok,
+20260727,short_balance,KNX,108,ok,
+20260727,daily_prices,ALL,2873,ok,
+20260728,short_volume,STK,1021,ok,
+20260728,short_volume,KSQ,1823,ok,
+20260728,short_volume,KNX,109,ok,
+20260728,short_balance,STK,943,ok,
+20260728,short_balance,KSQ,1821,ok,
+20260728,short_balance,KNX,109,ok,
+20260728,daily_prices,ALL,2873,ok,
+20260729,short_volume,STK,1021,ok,
+20260729,short_volume,KSQ,1824,ok,
+20260729,short_volume,KNX,109,ok,
+20260729,short_balance,STK,943,ok,
+20260729,short_balance,KSQ,1821,ok,
+20260729,short_balance,KNX,109,ok,
+20260729,daily_prices,ALL,2873,ok,
+20260730,short_volume,STK,1021,ok,
+20260730,short_volume,KSQ,1824,ok,
+20260730,short_volume,KNX,109,ok,
+20260730,short_balance,STK,943,ok,
+20260730,short_balance,KSQ,1821,ok,
+20260730,short_balance,KNX,109,ok,
+20260730,daily_prices,ALL,2873,ok,
+20260731,short_volume,STK,1021,ok,
+20260731,short_volume,KSQ,1823,ok,
+20260731,short_volume,KNX,109,ok,
+20260731,short_balance,STK,943,ok,
+20260731,short_balance,KSQ,1820,ok,
+20260731,short_balance,KNX,109,ok,
+20260731,daily_prices,ALL,2872,ok,
+20260803,short_volume,STK,1021,ok,
+20260803,short_volume,KSQ,1823,ok,
+20260803,short_volume,KNX,109,ok,
+20260803,short_balance,STK,943,ok,
+20260803,short_balance,KSQ,1820,ok,
+20260803,short_balance,KNX,109,ok,
+20260803,daily_prices,ALL,2872,ok,
+20260804,short_volume,STK,1021,ok,
+20260804,short_volume,KSQ,1823,ok,
+20260804,short_volume,KNX,109,ok,
+20260804,short_balance,STK,943,ok,
+20260804,short_balance,KSQ,1820,ok,
+20260804,short_balance,KNX,109,ok,
+20260804,daily_prices,ALL,2872,ok,
+20260805,short_volume,STK,1021,ok,
+20260805,short_volume,KSQ,1821,ok,
+20260805,short_volume,KNX,109,ok,
+20260805,short_balance,STK,943,ok,
+20260805,short_balance,KSQ,1820,ok,
+20260805,short_balance,KNX,109,ok,
+20260805,daily_prices,ALL,2872,ok,
+20260806,short_volume,STK,1021,ok,
+20260806,short_volume,KSQ,1821,ok,
+20260806,short_volume,KNX,109,ok,
+20260806,short_balance,STK,943,ok,
+20260806,short_balance,KSQ,1820,ok,
+20260806,short_balance,KNX,109,ok,
+20260806,daily_prices,ALL,2872,ok,
+20260807,short_volume,STK,1021,ok,
+20260807,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260807', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260807,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260807', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260807,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260807', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260807,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260807', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260807,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260807', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260807,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260807', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260810,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260810', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260810,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260810', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260810,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260810', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260810,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260810', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260810,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260810', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260810,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260810', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260810,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260810', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260811,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260811', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260811,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260811', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260811,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260811', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260811,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260811', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260811,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260811', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260811,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260811', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260811,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260811', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260812,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260812', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260812,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260812', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260812,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260812', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260812,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260812', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260812,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260812', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260812,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260812', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260812,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260812', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260813,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260813', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260813,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260813', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260813,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260813', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260813,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260813', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260813,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260813', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260813,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260813', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260813,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260813', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260814,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260814', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260814,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260814', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260814,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260814', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260814,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260814', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260814,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260814', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260814,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260814', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260814,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260814', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260817,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260817', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260817,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260817', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260817,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260817', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260817,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260817', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260817,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260817', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260817,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260817', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260817,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260817', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260818,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260818', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260818,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260818', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260818,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260818', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260818,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260818', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260818,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260818', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260818,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260818', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260818,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260818', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260819,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260819', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260819,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260819', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260819,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260819', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260819,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260819', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260819,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260819', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260819,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260819', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260819,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260819', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260820,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260820', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260820,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260820', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260820,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260820', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260820,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260820', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260820,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260820', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260820,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260820', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260820,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260820', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260821,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260821', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260821,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260821', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260821,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260821', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260821,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260821', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260821,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260821', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260821,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260821', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260821,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260821', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260824,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260824', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260824,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260824', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260824,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260824', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260824,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260824', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260824,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260824', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260824,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260824', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260824,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260824', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260825,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260825', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260825,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260825', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260825,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260825', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260825,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260825', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260825,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260825', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260825,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260825', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260825,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260825', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260826,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260826', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260826,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260826', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260826,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260826', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260826,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260826', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260826,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260826', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260826,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260826', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260826,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260826', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260827,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260827', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260827,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260827', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260827,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260827', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260827,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260827', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260827,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260827', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260827,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260827', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260827,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260827', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260828,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260828', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260828,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260828', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260828,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260828', 'mktId': 'KNX'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260828,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260828', 'mktTpCd': '1'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260828,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260828', 'mktTpCd': '2'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260828,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260828', 'mktTpCd': '6'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30501: Expecting value: line 13 column 1 (char 25)"
+20260828,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260828', 'mktId': 'ALL'}: JSON parse failed for bld=dbms/MDC/STAT/standard/MDCSTAT01501: Expecting value: line 13 column 1 (char 25)"
+20260831,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260831', 'mktId': 'STK'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260831,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260831', 'mktId': 'KSQ'}: JSON parse failed for bld=dbms/MDC/STAT/srt/MDCSTAT30101: Expecting value: line 13 column 1 (char 25)"
+20260831,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260831', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260831,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260831', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260831,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260831', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260831,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260831', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260831,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260831', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260901,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260901', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260901,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260901', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260901,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260901', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260901,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260901', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260901,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260901', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260901,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260901', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260901,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260901', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260902,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260902', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260902,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260902', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260902,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260902', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260902,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260902', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260902,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260902', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260902,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260902', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260902,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260902', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260903,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260903', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260903,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260903', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260903,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260903', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260903,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260903', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260903,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260903', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260903,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260903', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260903,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260903', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260904,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260904', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260904,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260904', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260904,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260904', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260904,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260904', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260904,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260904', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260904,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260904', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260904,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260904', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260907,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260907', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260907,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260907', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260907,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260907', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260907,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260907', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260907,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260907', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260907,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260907', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260907,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260907', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260908,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260908', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260908,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260908', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260908,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260908', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260908,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260908', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260908,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260908', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260908,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260908', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260908,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260908', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260909,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260909', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260909,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260909', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260909,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260909', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260909,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260909', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260909,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260909', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260909,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260909', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260909,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260909', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260910,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260910', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260910,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260910', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260910,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260910', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260910,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260910', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260910,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260910', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260910,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260910', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260910,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260910', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260911,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260911', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260911,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260911', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260911,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260911', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260911,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260911', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260911,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260911', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260911,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260911', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260911,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260911', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260914,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260914', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260914,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260914', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260914,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260914', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260914,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260914', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260914,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260914', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260914,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260914', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260914,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260914', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260915,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260915', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260915,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260915', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260915,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260915', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260915,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260915', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260915,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260915', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260915,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260915', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260915,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260915', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260916,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260916', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260916,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260916', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260916,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260916', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260916,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260916', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260916,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260916', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260916,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260916', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260916,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260916', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260917,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260917', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260917,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260917', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260917,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260917', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260917,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260917', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260917,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260917', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260917,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260917', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260917,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260917', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260918,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260918', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260918,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260918', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260918,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260918', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260918,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260918', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260918,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260918', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260918,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260918', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260918,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260918', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260921,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260921', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260921,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260921', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260921,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260921', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260921,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260921', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260921,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260921', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260921,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260921', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260921,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260921', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260922,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260922', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260922,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260922', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260922,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260922', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260922,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260922', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260922,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260922', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260922,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260922', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260922,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260922', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260923,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260923', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260923,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260923', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260923,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260923', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260923,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260923', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260923,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260923', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260923,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260923', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260923,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260923', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260924,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260924', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260924,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260924', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260924,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260924', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260924,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260924', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260924,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260924', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260924,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260924', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260924,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260924', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260925,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260925', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260925,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260925', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260925,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260925', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260925,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260925', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260925,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260925', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260925,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260925', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260925,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260925', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260928,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260928', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260928,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260928', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260928,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260928', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260928,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260928', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260928,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260928', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260928,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260928', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260928,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260928', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260929,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260929', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260929,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260929', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260929,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260929', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260929,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260929', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260929,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260929', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260929,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260929', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260929,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260929', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20260930,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260930', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20260930,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260930', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20260930,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20260930', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20260930,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260930', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20260930,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260930', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20260930,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20260930', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20260930,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20260930', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261001,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261001', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261001,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261001', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261001,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261001', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261001,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261001', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261001,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261001', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261001,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261001', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261001,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261001', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261002,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261002', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261002,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261002', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261002,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261002', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261002,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261002', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261002,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261002', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261002,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261002', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261002,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261002', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261005,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261005', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261005,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261005', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261005,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261005', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261005,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261005', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261005,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261005', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261005,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261005', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261005,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261005', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261006,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261006', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261006,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261006', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261006,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261006', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261006,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261006', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261006,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261006', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261006,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261006', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261006,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261006', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261007,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261007', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261007,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261007', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261007,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261007', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261007,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261007', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261007,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261007', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261007,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261007', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261007,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261007', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261008,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261008', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261008,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261008', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261008,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261008', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261008,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261008', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261008,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261008', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261008,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261008', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261008,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261008', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261009,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261009', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261009,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261009', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261009,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261009', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261009,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261009', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261009,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261009', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261009,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261009', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261009,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261009', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261012,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261012', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261012,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261012', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261012,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261012', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261012,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261012', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261012,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261012', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261012,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261012', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261012,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261012', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261013,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261013', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261013,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261013', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261013,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261013', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261013,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261013', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261013,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261013', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261013,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261013', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261013,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261013', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261014,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261014', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261014,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261014', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261014,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261014', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261014,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261014', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261014,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261014', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261014,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261014', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261014,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261014', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261015,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261015', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261015,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261015', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261015,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261015', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261015,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261015', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261015,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261015', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261015,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261015', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261015,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261015', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261016,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261016', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261016,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261016', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261016,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261016', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261016,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261016', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261016,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261016', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261016,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261016', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261016,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261016', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261019,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261019', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261019,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261019', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261019,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261019', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261019,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261019', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261019,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261019', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261019,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261019', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261019,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261019', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261020,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261020', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261020,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261020', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261020,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261020', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261020,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261020', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261020,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261020', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261020,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261020', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261020,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261020', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261021,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261021', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261021,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261021', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261021,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261021', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261021,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261021', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261021,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261021', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261021,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261021', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261021,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261021', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261022,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261022', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261022,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261022', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261022,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261022', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261022,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261022', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261022,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261022', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261022,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261022', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261022,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261022', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261023,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261023', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261023,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261023', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261023,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261023', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261023,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261023', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261023,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261023', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261023,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261023', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261023,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261023', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261026,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261026', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261026,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261026', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261026,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261026', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261026,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261026', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261026,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261026', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261026,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261026', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261026,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261026', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261027,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261027', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261027,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261027', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261027,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261027', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261027,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261027', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261027,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261027', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261027,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261027', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261027,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261027', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261028,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261028', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261028,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261028', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261028,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261028', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261028,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261028', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261028,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261028', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261028,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261028', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261028,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261028', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261029,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261029', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261029,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261029', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261029,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261029', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261029,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261029', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261029,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261029', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261029,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261029', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261029,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261029', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
+20261030,short_volume,STK,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261030', 'mktId': 'STK'}: Login response not JSON (HTTP 200)"
+20261030,short_volume,KSQ,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261030', 'mktId': 'KSQ'}: Login response not JSON (HTTP 200)"
+20261030,short_volume,KNX,0,failed,"KRX request failed after 3 attempts: short_selling_individual {'trdDd': '20261030', 'mktId': 'KNX'}: Login response not JSON (HTTP 200)"
+20261030,short_balance,STK,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261030', 'mktTpCd': '1'}: Login response not JSON (HTTP 200)"
+20261030,short_balance,KSQ,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261030', 'mktTpCd': '2'}: Login response not JSON (HTTP 200)"
+20261030,short_balance,KNX,0,failed,"KRX request failed after 3 attempts: short_balance_individual {'trdDd': '20261030', 'mktTpCd': '6'}: Login response not JSON (HTTP 200)"
+20261030,daily_prices,ALL,0,failed,"KRX request failed after 3 attempts: all_stock_price {'trdDd': '20261030', 'mktId': 'ALL'}: Login response not JSON (HTTP 200)"
