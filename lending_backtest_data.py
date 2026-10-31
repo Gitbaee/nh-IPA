@@ -241,26 +241,33 @@ def fetch_date(client: LendingClient, day: str) -> tuple[list[dict], int, int]:
     return all_rows, total, pages
 
 
-def save_data(fresh_rows: list[dict]) -> tuple[int, int, int, str, str]:
+def save_data(fresh_rows: list[dict]) -> tuple[int, int, int, int, str, str]:
     existing = load_csv(DATA_FILE)
     fresh = pd.DataFrame(fresh_rows)
     if existing.empty and fresh.empty:
-        return 0, 0, 0, "", ""
+        return 0, 0, 0, 0, "", ""
     combined = pd.concat([existing, fresh], ignore_index=True, sort=False)
     before = len(combined)
     if {"basDt", "isinCd"}.issubset(combined.columns):
         combined = combined.drop_duplicates(subset=["basDt", "isinCd"], keep="last")
     duplicates_removed = before - len(combined)
-    combined = combined.sort_values(["basDt", "isinCd"], kind="stable")
+    sort_cols = [c for c in ("basDt", "isinCd") if c in combined.columns]
+    if sort_cols:
+        combined = combined.sort_values(sort_cols, kind="stable")
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     combined.to_csv(DATA_FILE, index=False, compression="gzip", encoding="utf-8")
-    valid_isin = combined["isinCd"].astype(str).str.fullmatch(r"KR[A-Z0-9]{10}", na=False)
-    missing_required = int(combined[list(EXPECTED_FIELDS)].isna().any(axis=1).sum())
-    dates = combined["basDt"].dropna().astype(str)
+    if "isinCd" in combined.columns:
+        valid_isin_rows = int(combined["isinCd"].astype(str).str.fullmatch(r"KR[A-Z0-9]{10}", na=False).sum())
+    else:
+        valid_isin_rows = 0
+    required_present = [field for field in EXPECTED_FIELDS if field in combined.columns]
+    missing_required = int(combined[required_present].isna().any(axis=1).sum()) if required_present else len(combined)
+    dates = combined["basDt"].dropna().astype(str) if "basDt" in combined.columns else pd.Series(dtype=str)
     return (
         len(combined),
-        int(valid_isin.sum()),
+        valid_isin_rows,
         missing_required,
+        duplicates_removed,
         dates.min() if not dates.empty else "",
         dates.max() if not dates.empty else "",
     )
@@ -348,7 +355,7 @@ def main() -> int:
             break
 
     save_status(new_status)
-    total_rows, valid_isin_rows, missing_required, first_date, last_date = save_data(fresh_rows)
+    total_rows, valid_isin_rows, missing_required, duplicates_removed, first_date, last_date = save_data(fresh_rows)
     summary = (
         "금융위원회 주식대차 데이터 수집 결과\n"
         f"모드: {mode}\n요청 시작일: {start:%Y%m%d}\n종료일: {end:%Y%m%d}\n"
@@ -357,6 +364,7 @@ def main() -> int:
         f"누적 행: {total_rows:,}\n"
         f"유효 ISIN 행: {valid_isin_rows:,}\n"
         f"필수 필드 결측 행: {missing_required:,}\n"
+        f"중복 제거 행: {duplicates_removed:,}\n"
         f"누적 기준일 범위: {first_date or '없음'} ~ {last_date or '없음'}\n"
         f"상태: {'부분 수집/중단' if failed else '요청 범위 처리 완료'}\n"
         "주의: 대차잔고는 공매도 잔고와 다른 지표이며, lnbRmanStckCnt는 API 응답의 잔여 대차 주식 수 필드입니다.\n"
