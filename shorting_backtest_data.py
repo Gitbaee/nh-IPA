@@ -23,7 +23,6 @@ START_DEFAULT = "20260501"
 MARKETS = {
     "STK": "1",   # KOSPI
     "KSQ": "2",   # KOSDAQ
-    "KNX": "6",   # KONEX
 }
 FILES = {
     "short_volume": DATA_DIR / "short_volume.csv.gz",
@@ -296,7 +295,7 @@ def main() -> int:
         f"공매도 거래 누적 행: {volume_count:,}\n"
         f"공매도 잔고 누적 행: {balance_count:,}\n"
         f"전종목 주가 누적 행: {price_count:,}\n"
-        "시장: KOSPI / KOSDAQ / KONEX\n"
+        "시장: KOSPI / KOSDAQ\n"
         "실패 요청은 output/shorting_collection_failures.csv에 별도 기록했습니다.\n"
         "참고: 공매도 순보유잔고는 보고 기준에 따른 T+2 지연 데이터이며, "
         "보고의무 기준 미만 잔고는 포함되지 않을 수 있습니다.\n"
