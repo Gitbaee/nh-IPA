@@ -95,13 +95,57 @@ def fetch_all_listed_disclosures(begin_date, end_date):
     return listed_rows, len(all_rows), total_pages
 
 
+
+def normalize_company_name(value):
+    return "".join(ch.lower() for ch in (value or "") if ch.isalnum())
+
+
+def load_watchlist():
+    import json
+    from pathlib import Path
+
+    path = Path("config/dart_watchlist.json")
+    if not path.exists():
+        raise RuntimeError("config/dart_watchlist.json 파일이 없습니다.")
+    with path.open(encoding="utf-8") as file:
+        config = json.load(file)
+
+    direct_names = set()
+    aliases = config.get("domestic_aliases", {})
+    for name in config.get("domestic_holdings", []):
+        direct_names.add(normalize_company_name(name))
+        for alias in aliases.get(name, []):
+            direct_names.add(normalize_company_name(alias))
+
+    affiliate_codes = {
+        str(code).strip()
+        for code in config.get("affiliate_corp_codes", [])
+        if str(code).strip()
+    }
+    if not direct_names:
+        raise RuntimeError("DART 국내 보유종목 목록이 비어 있습니다.")
+    return direct_names, affiliate_codes
+
+
+def filter_watchlist_rows(rows, direct_names, affiliate_codes):
+    selected = []
+    for row in rows:
+        corp_code = str(row.get("corp_code") or "").strip()
+        corp_name = normalize_company_name(row.get("corp_name"))
+        if corp_name in direct_names:
+            selected.append((row, "holding"))
+        elif corp_code and corp_code in affiliate_codes:
+            selected.append((row, "affiliate"))
+    return selected
+
+
 def build_messages(rows, begin_date, end_date, total_rows, total_pages, timestamp):
     important_count = 0
     normal_count = 0
     company_codes = set()
     records = []
 
-    for row in rows:
+    for row, relationship in rows:
         report = (row.get("report_nm") or "공시 제목 확인 필요").strip()
         market_code = (row.get("corp_cls") or "").strip()
         market_name = LISTED_MARKETS.get(market_code, "상장시장")
@@ -115,10 +159,13 @@ def build_messages(rows, begin_date, end_date, total_rows, total_pages, timestam
         is_important = any(word in report for word in IMPORTANT_KEYWORDS)
         if is_important:
             important_count += 1
-            label = "[중요 키워드]"
+            importance_label = "[중요 키워드]"
         else:
             normal_count += 1
-            label = "[일반 공시]"
+            importance_label = "[일반 공시]"
+
+        relationship_label = "⭐ [보유종목]" if relationship == "holding" else "⭐ [계열사]"
+        label = f"{relationship_label} {importance_label}"
 
         company_label = f"{company} ({stock_code})" if stock_code else company
         link = (
@@ -136,7 +183,7 @@ def build_messages(rows, begin_date, end_date, total_rows, total_pages, timestam
     summary = (
         f"조회 기간: {begin_date} ~ {end_date}\n"
         f"조회 시각: {timestamp}\n"
-        f"감시 범위: 코스피·코스닥·코넥스 전체 상장사 (DART 법인구분 Y/K/N)\n"
+        f"감시 범위: 등록한 국내 보유종목 및 공식 확인된 계열사\n"
         f"API 조회: {total_rows:,}건 / {total_pages:,}페이지\n"
         f"상장사 공시: {len(rows):,}건 / 공시 제출 상장사 {len(company_codes):,}개\n"
         f"중요 키워드 공시: {important_count:,}건\n"
@@ -176,9 +223,11 @@ def main():
     rows, total_rows, total_pages = fetch_all_listed_disclosures(
         begin_text, end_text
     )
-    # 중요 키워드 여부와 관계없이 국내 3개 시장의 모든 공시를 전송합니다.
+    direct_names, affiliate_codes = load_watchlist()
+    selected_rows = filter_watchlist_rows(rows, direct_names, affiliate_codes)
+    # 등록한 국내 보유종목과 공식 확인된 계열사만 알림 대상으로 사용합니다.
     messages, important_count, normal_count = build_messages(
-        rows, begin_text, end_text, total_rows, total_pages, timestamp
+        selected_rows, begin_text, end_text, total_rows, total_pages, timestamp
     )
 
     from Alerts import emit_alert
@@ -190,7 +239,7 @@ def main():
         file.write("\n\n--- 다음 메시지 ---\n\n".join(messages))
 
     print(
-        f"DART 완료: 상장사 공시 {len(rows)}건, "
+        f"DART 완료: 보유종목·계열사 공시 {len(selected_rows)}건, "
         f"중요 키워드 {important_count}건, 일반 공시 {normal_count}건, "
         f"API 조회 {total_rows}건 / {total_pages}페이지"
     )
