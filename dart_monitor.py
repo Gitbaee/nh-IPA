@@ -200,19 +200,30 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as exc:
-        # 수집 실패를 '공시 0건'으로 오인하지 않도록 텔레그램 오류 알림을 보냅니다.
-        try:
-            from Alerts import emit_alert
-            failed_at = datetime.now(SEOUL).strftime("%Y-%m-%d %H:%M KST")
-            emit_alert(
-                "DART 공시 감시 오류",
-                f"실행 시각: {failed_at}\n"
-                f"조회 결과: 확인 불가 (공시 0건이 아닙니다)\n"
-                f"오류: {type(exc).__name__}: {str(exc)[:1500]}",
-            )
-        except Exception as notify_exc:
+        # Telegram 전송 자체가 실패한 경우 같은 제한 상태에서 오류 알림을
+        # 다시 보내지 않습니다. 원래 수집 오류일 때만 별도 오류 알림을 시도합니다.
+        is_telegram_delivery_error = (
+            isinstance(exc, RuntimeError)
+            and "Telegram sendMessage" in str(exc)
+        )
+        if is_telegram_delivery_error:
             print(
-                "DART 오류 텔레그램 전송도 실패했습니다: "
-                f"{type(notify_exc).__name__}: {notify_exc}"
+                "DART 결과 전송 실패: Telegram 전송 제한 또는 장애로 "
+                "오류 알림 재전송을 생략합니다. 조회 결과는 확인 불가입니다."
             )
+        else:
+            try:
+                from Alerts import emit_alert
+                failed_at = datetime.now(SEOUL).strftime("%Y-%m-%d %H:%M KST")
+                emit_alert(
+                    "DART 공시 감시 오류",
+                    f"실행 시각: {failed_at}\\n"
+                    f"조회 결과: 확인 불가 (공시 0건이 아닙니다)\\n"
+                    f"오류: {type(exc).__name__}: {str(exc)[:1500]}",
+                )
+            except Exception as notify_exc:
+                print(
+                    "DART 오류 텔레그램 전송도 실패했습니다: "
+                    f"{type(notify_exc).__name__}: {notify_exc}"
+                )
         raise
