@@ -1,0 +1,6 @@
+symbol,name,market,qty,avg_price,memo
+005930,삼성전자,KOSPI,10,70000,예시
+000660,SK하이닉스,KOSPI,5,130000,예시
+035420, NAVER,KOSPI,3,210000,예시
+051910,LG화학,KOSPI,2,430000,예시
+247540,에코프로비엠,KOSDAQ,2,550000,예시
