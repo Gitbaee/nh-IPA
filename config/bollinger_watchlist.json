@@ -1,6 +1,16 @@
 {
   "symbols": [
     {
+      "symbol": "^KS11",
+      "name": "KOSPI",
+      "market": "KR"
+    },
+    {
+      "symbol": "^KQ11",
+      "name": "KOSDAQ",
+      "market": "KR"
+    },
+    {
       "symbol": "161890",
       "name": "한국콜마",
       "market": "KR",
@@ -245,20 +255,6 @@
       "symbol": "IWY",
       "name": "IWY 러셀Top200",
       "market": "US"
-    },
-    {
-      "symbol": "^KS11",
-      "name": "KOSPI 코스피",
-      "market": "INDEX",
-      "yahoo": "^KS11",
-      "type": "index"
-    },
-    {
-      "symbol": "^KQ11",
-      "name": "KOSDAQ 코스닥",
-      "market": "INDEX",
-      "yahoo": "^KQ11",
-      "type": "index"
     }
   ],
   "settings": {
