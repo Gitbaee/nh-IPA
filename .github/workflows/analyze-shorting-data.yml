@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   analyze:
-    # Also analyze after failed/partial collection runs, but never make KRX API calls.
+    # Analyze after successful or partial collection; never make KRX API calls.
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -23,8 +23,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install analysis dependency
-        run: python -m pip install pandas
+      - name: Install analysis dependencies
+        run: python -m pip install pandas requests
 
       - name: Analyze already-collected files (no KRX requests)
         run: python analyze_shorting_data.py
@@ -37,3 +37,29 @@ jobs:
             output/shorting_analysis_summary.txt
             output/shorting_analysis_top_symbols.csv
           if-no-files-found: warn
+
+      - name: Send analysis summary via Telegram
+        if: success()
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TELEGRAM_TOKEN || secrets.BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || secrets.CHAT_ID }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          from Alerts import emit_alert
+
+          token = os.getenv("TELEGRAM_BOT_TOKEN")
+          chat_id = os.getenv("TELEGRAM_CHAT_ID")
+          if not token or not chat_id:
+              print("Telegram credentials are not configured; report remains available as a workflow artifact.")
+              raise SystemExit(0)
+
+          report = Path("output/shorting_analysis_summary.txt").read_text(encoding="utf-8")
+          # The current analyzer's price ranking may mishandle negative signs;
+          # send coverage and short-volume/balance rankings only until corrected.
+          report = report.split("[가격 변동 상위 10]", 1)[0].strip()
+          report += "\n\n가격 변동 순위는 부호 처리 검증 전까지 알림에서 제외했습니다."
+          emit_alert("공매도 수집 데이터 자동 분석", report)
+          PY
