@@ -2,12 +2,16 @@ name: Analyze Collected KRX Shorting Data
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ["KRX Short-Selling Backtest Data"]
+    types: [completed]
 
 permissions:
   contents: read
 
 jobs:
   analyze:
+    # Also analyze after failed/partial collection runs, but never make KRX API calls.
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
