@@ -2,12 +2,20 @@ name: Analyze Collected KRX Shorting Data
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/analyze-shorting-data.yml
+      - analyze_shorting_data.py
   workflow_run:
     workflows: ["KRX Short-Selling Backtest Data"]
     types: [completed]
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: collected-krx-shorting-analysis
+  cancel-in-progress: false
 
 jobs:
   analyze:
@@ -17,6 +25,8 @@ jobs:
     steps:
       - name: Check out repository data
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -28,6 +38,27 @@ jobs:
 
       - name: Analyze already-collected files (no KRX requests)
         run: python analyze_shorting_data.py
+
+      - name: Save dated analysis snapshot
+        run: |
+          snapshot="$(TZ=Asia/Seoul date +'%Y%m%d-%H%M')"
+          mkdir -p output/analysis_history
+          cp output/shorting_analysis_summary.txt "output/analysis_history/${snapshot}_summary.txt"
+          if [[ -f output/shorting_analysis_top_symbols.csv ]]; then
+            cp output/shorting_analysis_top_symbols.csv "output/analysis_history/${snapshot}_top_symbols.csv"
+          fi
+
+      - name: Persist latest report and history in repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add output/shorting_analysis_summary.txt output/shorting_analysis_top_symbols.csv output/analysis_history/
+          if git diff --cached --quiet; then
+            echo "No analysis report changes to commit."
+          else
+            git commit -m "Save KRX shorting analysis snapshot"
+            git push
+          fi
 
       - name: Upload analysis report
         uses: actions/upload-artifact@v4
@@ -53,12 +84,11 @@ jobs:
           token = os.getenv("TELEGRAM_BOT_TOKEN")
           chat_id = os.getenv("TELEGRAM_CHAT_ID")
           if not token or not chat_id:
-              print("Telegram credentials are not configured; report remains available as a workflow artifact.")
+              print("Telegram credentials are not configured; report is saved in the repository and available as a workflow artifact.")
               raise SystemExit(0)
 
           report = Path("output/shorting_analysis_summary.txt").read_text(encoding="utf-8")
-          # The current analyzer's price ranking may mishandle negative signs;
-          # send coverage and short-volume/balance rankings only until corrected.
+          # Exclude the price ranking until its sign and metric handling are validated.
           report = report.split("[가격 변동 상위 10]", 1)[0].strip()
           report += "\n\n가격 변동 순위는 부호 처리 검증 전까지 알림에서 제외했습니다."
           emit_alert("공매도 수집 데이터 자동 분석", report)
