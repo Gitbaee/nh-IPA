@@ -1,0 +1,62 @@
+name: NH Order Flow Research
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '35 23 * * 0-4'
+
+permissions:
+  contents: write
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONUNBUFFERED: "1"
+      NHPLUG_DEFAULT_ACCOUNT: ${{ secrets.NHPLUG_DEFAULT_ACCOUNT || secrets.NH_CANO || secrets.NH_ACCOUNT }}
+      NH_APP_KEY: ${{ secrets.NH_APP_KEY || secrets.NHPLUG_APP_KEY }}
+      NH_APP_SECRET: ${{ secrets.NH_APP_SECRET || secrets.NHPLUG_APP_SECRET }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas requests
+
+      - name: Validate syntax
+        run: |
+          python -m py_compile nh_account_snapshot.py nh_orderflow_research.py
+
+      - name: Build daily order-flow research panel
+        run: |
+          python nh_orderflow_research.py --dry-run
+
+      - name: Persist research artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/research output/nh_orderflow_summary.txt
+          if git diff --cached --quiet; then
+            echo "No research artifact changes to commit."
+          else
+            git commit -m "Update NH order-flow research panel"
+            git push
+          fi
+
+      - name: Upload order-flow report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nh-order-flow-research
+          path: |
+            data/research/nh_orderflow_daily.csv.gz
+            output/nh_orderflow_summary.txt
+          if-no-files-found: warn
