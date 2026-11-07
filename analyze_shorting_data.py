@@ -1,194 +1,188 @@
 #!/usr/bin/env python3
-"""Summarize collected KRX short data, prioritizing configured domestic holdings.
+"""Build a holdings-first sigma/short-interest report from saved KRX daily data.
 
-Reads only committed data; it does not make KRX requests or provide trading advice.
-Domestic holdings are sourced from config/dart_watchlist.json and supplemented
-with ticker/quantity/cost-basis details in config/bollinger_watchlist.json.
+This is an end-of-day historical analysis; it makes no live market calls and does
+not infer investor class from broker/member data. Missing observations stay blank.
 """
 from __future__ import annotations
 
 import json
 import re
 from pathlib import Path
-from typing import Iterable
 
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent
-DATA_DIR = ROOT / "data" / "shorting"
-OUTPUT_DIR = ROOT / "output"
-VOLUME_FILE = DATA_DIR / "short_volume.csv.gz"
-BALANCE_FILE = DATA_DIR / "short_balance.csv.gz"
-PRICE_FILE = DATA_DIR / "daily_prices.csv.gz"
-DART_WATCHLIST = ROOT / "config" / "dart_watchlist.json"
-BOLLINGER_WATCHLIST = ROOT / "config" / "bollinger_watchlist.json"
-SUMMARY_FILE = OUTPUT_DIR / "shorting_analysis_summary.txt"
-TOP_CSV = OUTPUT_DIR / "shorting_analysis_top_symbols.csv"
-HOLDINGS_CSV = OUTPUT_DIR / "shorting_analysis_holdings.csv"
-
-DATE_COLUMNS = ["_query_date", "TRD_DD", "trdDd", "BAS_DT", "basDt", "DATE", "date"]
-CODE_COLUMNS = ["ISU_SRT_CD", "isuSrtCd", "종목코드(단축)", "종목코드", "code", "ISU_CD", "isuCd"]
-NAME_COLUMNS = ["ISU_ABBRV", "ISU_NM", "isuNm", "종목명", "name"]
-VOLUME_COLUMNS = ["CVSRTSELL_TRDVOL", "ACC_TRDVOL", "total_volume"]
-BALANCE_COLUMNS = ["BAL_QTY", "balance_qty"]
-CLOSE_COLUMNS = ["TDD_CLSPRC", "close", "Close", "closing_price"]
+DATA = ROOT / "data" / "shorting"
+OUTPUT = ROOT / "output"
+FILES = {
+    "price": DATA / "daily_prices.csv.gz",
+    "volume": DATA / "short_volume.csv.gz",
+    "balance": DATA / "short_balance.csv.gz",
+}
+SUMMARY = OUTPUT / "shorting_analysis_summary.txt"
+HOLDINGS_OUT = OUTPUT / "shorting_analysis_holdings.csv"
+TOP_OUT = OUTPUT / "shorting_analysis_top_symbols.csv"
+DATE_COLS = ["_query_date", "TRD_DD", "trdDd", "BAS_DT", "basDt", "DATE", "date"]
+CODE_COLS = ["ISU_SRT_CD", "isuSrtCd", "종목코드(단축)", "종목코드", "ISU_CD", "isuCd", "code"]
+NAME_COLS = ["ISU_ABBRV", "ISU_NM", "isuNm", "종목명", "name"]
 
 
-def read_csv(path: Path) -> pd.DataFrame:
-    if not path.exists():
-        return pd.DataFrame()
-    return pd.read_csv(path, compression="gzip", dtype=str, low_memory=False)
+def load_frame(path: Path) -> pd.DataFrame:
+    return pd.read_csv(path, compression="gzip", dtype=str, low_memory=False) if path.exists() else pd.DataFrame()
 
 
-def to_number(series: pd.Series) -> pd.Series:
-    """Parse numeric text while preserving negative signs and missing values."""
-    if series.empty:
-        return pd.Series([], dtype="float64")
-    text = series.astype(str).str.replace(",", "", regex=False).str.replace("%", "", regex=False).str.strip()
-    text = text.replace({"": pd.NA, "-": pd.NA, "nan": pd.NA, "None": pd.NA})
-    return pd.to_numeric(text, errors="coerce")
+def first_column(frame: pd.DataFrame, names: list[str]) -> str | None:
+    return next((name for name in names if name in frame.columns), None)
 
 
-def pick_column(df: pd.DataFrame, candidates: Iterable[str]) -> str | None:
-    return next((column for column in candidates if column in df.columns), None)
+def numbers(values: pd.Series) -> pd.Series:
+    text = values.astype(str).str.strip().str.replace(",", "", regex=False).str.replace("%", "", regex=False)
+    return pd.to_numeric(text.replace({"": pd.NA, "-": pd.NA, "nan": pd.NA, "None": pd.NA}), errors="coerce")
 
 
-def normalize_date_series(series: pd.Series) -> pd.Series:
-    text = series.astype(str).str.strip().str.replace(r"[^0-9]", "", regex=True)
+def dates(values: pd.Series) -> pd.Series:
+    text = values.astype(str).str.replace(r"[^0-9]", "", regex=True)
     return text.where(text.str.len() >= 8, pd.NA).str[:8]
 
 
-def normalize_name(value: object) -> str:
-    return "".join(char.lower() for char in str(value or "") if char.isalnum())
+def norm_name(value: object) -> str:
+    return "".join(c.lower() for c in str(value or "") if c.isalnum())
 
 
-def normalize_symbol(value: object) -> str:
+def norm_code(value: object) -> str:
     text = str(value or "").strip().replace(".0", "")
     return text.zfill(6) if text.isdigit() and len(text) <= 6 else text.upper()
 
 
 def load_holdings() -> list[dict]:
-    """Load named domestic holdings and enrich with configured codes/position data."""
-    by_symbol: dict[str, dict] = {}
-    by_name: dict[str, dict] = {}
-    if DART_WATCHLIST.exists():
-        config = json.loads(DART_WATCHLIST.read_text(encoding="utf-8"))
-        aliases = config.get("domestic_aliases", {})
-        for name in config.get("domestic_holdings", []):
+    """Use configured KR holdings/watchlist, enriched with known six-digit tickers."""
+    records: dict[str, dict] = {}
+    dart = ROOT / "config" / "dart_watchlist.json"
+    if dart.exists():
+        cfg = json.loads(dart.read_text(encoding="utf-8"))
+        aliases = cfg.get("domestic_aliases", {})
+        for name in cfg.get("domestic_holdings", []):
             record = {"symbol": "", "name": str(name).strip(), "qty": "", "avg_price": "", "owned": True}
-            by_name[normalize_name(name)] = record
+            records[norm_name(name)] = record
             for alias in aliases.get(name, []):
-                by_name[normalize_name(alias)] = record
-
-    if BOLLINGER_WATCHLIST.exists():
-        config = json.loads(BOLLINGER_WATCHLIST.read_text(encoding="utf-8"))
-        for item in config.get("symbols", []):
+                records[norm_name(alias)] = record
+    watch = ROOT / "config" / "bollinger_watchlist.json"
+    if watch.exists():
+        cfg = json.loads(watch.read_text(encoding="utf-8"))
+        for item in cfg.get("symbols", []):
             if str(item.get("market", "")).upper() != "KR":
                 continue
-            symbol = normalize_symbol(item.get("symbol"))
-            if not re.fullmatch(r"\d{6}", symbol):
+            code = norm_code(item.get("symbol"))
+            if not re.fullmatch(r"\d{6}", code):
                 continue
-            name = str(item.get("name") or symbol).strip()
-            qty, avg = item.get("qty", ""), item.get("avg_price", "")
-            record = {"symbol": symbol, "name": name, "qty": qty, "avg_price": avg,
-                      "owned": qty not in (None, "", 0, "0") and avg not in (None, "", 0, "0")}
-            existing = by_name.get(normalize_name(name))
-            if existing:
-                existing.update(record)
-                by_symbol[symbol] = existing
-            else:
-                by_symbol[symbol] = record
-                by_name[normalize_name(name)] = record
-
-    # Keep one report row per holding; ticker-backed rows take precedence over names.
-    unique = []
-    seen = set()
-    for record in [*by_symbol.values(), *by_name.values()]:
-        key = record["symbol"] or normalize_name(record["name"])
-        if key and key not in seen:
-            seen.add(key)
-            unique.append(record)
-    return sorted(unique, key=lambda record: (not record["owned"], record["name"].lower()))
+            name = str(item.get("name") or code).strip()
+            key = norm_name(name)
+            rec = records.get(key) or {"symbol": code, "name": name, "qty": "", "avg_price": "", "owned": False}
+            rec.update(symbol=code, name=name, qty=item.get("qty", ""), avg_price=item.get("avg_price", ""))
+            rec["owned"] = item.get("qty") not in (None, "", 0, "0") and item.get("avg_price") not in (None, "", 0, "0")
+            records[key] = rec
+    unique: dict[str, dict] = {}
+    for rec in records.values():
+        key = rec["symbol"] or norm_name(rec["name"])
+        if key:
+            if key not in unique or (rec["symbol"] and not unique[key]["symbol"]):
+                unique[key] = rec
+    return sorted(unique.values(), key=lambda r: (not r["owned"], r["name"].lower()))
 
 
-def date_values(df: pd.DataFrame) -> tuple[list[str], str | None, str | None]:
-    if df.empty:
-        return [], None, None
-    col = pick_column(df, DATE_COLUMNS)
-    if not col:
-        return [], None, None
-    dates = sorted(normalize_date_series(df[col]).dropna().unique().tolist())
-    return dates, dates[0] if dates else None, dates[-1] if dates else None
+def dataset_keys(frame: pd.DataFrame) -> tuple[str | None, str | None, str | None]:
+    date_col = first_column(frame, DATE_COLS)
+    code_col = None
+    for col in CODE_COLS:
+        if col in frame:
+            sample = frame[col].dropna().astype(str).head(200)
+            if len(sample) and sample.map(lambda x: bool(re.fullmatch(r"\d{6}(?:\.0)?", x.strip()))).mean() >= 0.5:
+                code_col = col
+                break
+    return date_col, code_col, first_column(frame, NAME_COLS)
 
 
-def pick_code_col(df: pd.DataFrame) -> str | None:
-    # Only use a column when its values are predominantly six-digit KRX tickers.
-    for col in CODE_COLUMNS:
-        if col not in df.columns:
-            continue
-        sample = df[col].dropna().astype(str).str.strip().head(500)
-        if len(sample) and sample.map(lambda value: bool(re.fullmatch(r"\d{6}(?:\.0)?", value))).mean() >= 0.5:
-            return col
-    return None
-
-
-def symbol_rows(df: pd.DataFrame, holding: dict) -> pd.DataFrame:
-    if df.empty or not pick_column(df, DATE_COLUMNS):
+def matching_rows(frame: pd.DataFrame, holding: dict) -> pd.DataFrame:
+    date_col, code_col, name_col = dataset_keys(frame)
+    if frame.empty or not date_col:
         return pd.DataFrame()
-    code_col = pick_code_col(df)
     if holding["symbol"] and code_col:
-        by_code = df[ df[code_col].map(normalize_symbol) == holding["symbol"] ]
-        if not by_code.empty:
-            return by_code.copy()
-    name_col = pick_column(df, NAME_COLUMNS)
-    if not name_col:
-        return pd.DataFrame()
-    target = normalize_name(holding["name"])
-    aliases = {
-        "삼성전자우": {"삼성전자", "삼성전자우선주"},
-        "naver": {"네이버"},
-        "sk하이닉스": {"sk hynix", "sk hynix inc.", "sk하이닉스"},
-    }
-    accepted = {target, *(normalize_name(alias) for alias in aliases.get(holding["name"], set()))}
-    return df[df[name_col].map(normalize_name).isin(accepted)].copy()
+        matched = frame[frame[code_col].map(norm_code) == holding["symbol"]]
+        if not matched.empty:
+            return matched.copy()
+    if name_col:
+        aliases = {"NAVER": "네이버", "삼성전자우": "삼성전자"}
+        want = {norm_name(holding["name"])}
+        alias = aliases.get(holding["name"])
+        if alias:
+            want.add(norm_name(alias))
+        return frame[frame[name_col].map(norm_name).isin(want)].copy()
+    return pd.DataFrame()
 
 
-def latest_metric(df: pd.DataFrame, holding: dict, candidates: list[str]) -> tuple[float | None, str | None, float | None]:
-    rows = symbol_rows(df, holding)
-    date_col = pick_column(rows, DATE_COLUMNS)
-    metric_col = pick_column(rows, candidates)
+def sigma_metrics(frame: pd.DataFrame, holding: dict) -> dict:
+    rows = matching_rows(frame, holding)
+    date_col = first_column(rows, DATE_COLS)
+    price_col = first_column(rows, ["TDD_CLSPRC", "stck_prpr", "close", "Close", "closing_price"])
+    if rows.empty or not date_col or not price_col:
+        return {"sigma_date": "", "close": None, "mean20": None, "std20": None,
+                "minus2": None, "minus1": None, "plus1": None, "plus2": None,
+                "zscore": None, "line_event": "자료 없음", "price_5d_pct": None}
+    work = pd.DataFrame({"date": dates(rows[date_col]), "close": numbers(rows[price_col])}).dropna()
+    # KRX price feed can contain duplicate query rows; one close per security/day.
+    work = work.sort_values("date").drop_duplicates("date", keep="last").reset_index(drop=True)
+    work["mean20"] = work["close"].rolling(20, min_periods=20).mean()
+    work["std20"] = work["close"].rolling(20, min_periods=20).std(ddof=0)
+    work["z"] = (work["close"] - work["mean20"]) / work["std20"].replace(0, pd.NA)
+    if work.empty:
+        return {"sigma_date": "", "close": None, "mean20": None, "std20": None,
+                "minus2": None, "minus1": None, "plus1": None, "plus2": None,
+                "zscore": None, "line_event": "자료 없음", "price_5d_pct": None}
+    latest = work.iloc[-1]
+    if pd.isna(latest["mean20"]) or pd.isna(latest["std20"]):
+        event = "20거래일 미만"
+        bands = [None] * 4
+        zscore = None
+    else:
+        m, s, z = float(latest["mean20"]), float(latest["std20"]), float(latest["z"])
+        bands = [m - 2*s, m - s, m + s, m + 2*s]
+        zscore = z
+        previous = work.iloc[-2] if len(work) >= 2 else None
+        event = "중심선 부근"
+        for threshold, label in [(2, "+2σ 상단"), (1, "+1σ 상단"), (-1, "−1σ 하단"), (-2, "−2σ 하단")]:
+            if z >= threshold:
+                event = label
+        if previous is not None and pd.notna(previous["z"]):
+            prev_z = float(previous["z"])
+            for threshold, label in [(2, "+2σ 상향돌파"), (1, "+1σ 상향돌파"), (-1, "−1σ 하향이탈"), (-2, "−2σ 하향이탈")]:
+                if (prev_z < threshold <= z) or (prev_z > threshold >= z):
+                    event = label
+                    break
+    prev5 = work.iloc[-6]["close"] if len(work) >= 6 else None
+    change5 = (float(latest["close"]) / float(prev5) - 1) * 100 if prev5 not in (None, 0) else None
+    return {"sigma_date": str(latest["date"]), "close": float(latest["close"]),
+            "mean20": None if pd.isna(latest["mean20"]) else float(latest["mean20"]),
+            "std20": None if pd.isna(latest["std20"]) else float(latest["std20"]),
+            "minus2": bands[0], "minus1": bands[1], "plus1": bands[2], "plus2": bands[3],
+            "zscore": zscore, "line_event": event, "price_5d_pct": change5}
+
+
+def latest_metric(frame: pd.DataFrame, holding: dict, candidates: list[str]) -> tuple[float | None, str, float | None]:
+    rows = matching_rows(frame, holding)
+    date_col, metric_col = first_column(rows, DATE_COLS), first_column(rows, candidates)
     if rows.empty or not date_col or not metric_col:
-        return None, None, None
-    rows["_date"] = normalize_date_series(rows[date_col])
-    rows["_value"] = to_number(rows[metric_col])
-    rows = rows[rows["_date"].notna() & rows["_value"].notna()].sort_values("_date")
-    rows = rows.drop_duplicates("_date", keep="last")
+        return None, "", None
+    rows = rows.copy()
+    rows["date"] = dates(rows[date_col])
+    rows["metric"] = numbers(rows[metric_col])
+    rows = rows.dropna(subset=["date", "metric"]).sort_values("date").drop_duplicates("date", keep="last")
     if rows.empty:
-        return None, None, None
-    latest = rows.iloc[-1]
+        return None, "", None
     recent = rows.tail(5)
-    change = None
-    first_value = float(recent.iloc[0]["_value"])
-    if len(recent) >= 2 and first_value != 0:
-        change = (float(recent.iloc[-1]["_value"]) / first_value - 1) * 100
-    return float(latest["_value"]), str(latest["_date"]), change
-
-
-def top_symbols_for_day(df: pd.DataFrame, metric_candidates: list[str], day: str | None) -> pd.DataFrame:
-    cols = ["date", "code", "name", "metric"]
-    code_col, date_col = pick_code_col(df), pick_column(df, DATE_COLUMNS)
-    metric_col = pick_column(df, metric_candidates)
-    if df.empty or not code_col or not date_col or not metric_col or not day:
-        return pd.DataFrame(columns=cols)
-    work = df.copy()
-    work["date"] = normalize_date_series(work[date_col])
-    work = work[work["date"] == day].copy()
-    work["metric"] = to_number(work[metric_col])
-    work = work[work["metric"].notna()]
-    name_col = pick_column(work, NAME_COLUMNS)
-    work["name"] = work[name_col].astype(str) if name_col else work[code_col].astype(str)
-    work["code"] = work[code_col].map(normalize_symbol)
-    return work[cols].sort_values("metric", ascending=False).head(10).reset_index(drop=True)
+    base, last = float(recent.iloc[0]["metric"]), float(recent.iloc[-1]["metric"])
+    pct = (last / base - 1) * 100 if len(recent) > 1 and base else None
+    return last, str(recent.iloc[-1]["date"]), pct
 
 
 def fmt(value: object, decimals: int = 0) -> str:
@@ -196,81 +190,37 @@ def fmt(value: object, decimals: int = 0) -> str:
 
 
 def main() -> int:
-    volume, balance, prices = read_csv(VOLUME_FILE), read_csv(BALANCE_FILE), read_csv(PRICE_FILE)
-    vd, vs, ve = date_values(volume)
-    bd, bs, be = date_values(balance)
-    price_dates, ps, pe = date_values(prices)
-    common = set(vd) & set(bd) & set(price_dates)
-    common_day = max(common) if common else None
+    data = {key: load_frame(path) for key, path in FILES.items()}
     holdings = load_holdings()
-
-    records = []
+    rows = []
     for holding in holdings:
-        vol, vol_date, vol_change = latest_metric(volume, holding, VOLUME_COLUMNS)
-        bal, bal_date, bal_change = latest_metric(balance, holding, BALANCE_COLUMNS)
-        close, close_date, price_change = latest_metric(prices, holding, CLOSE_COLUMNS)
-        records.append({
-            "symbol": holding["symbol"], "name": holding["name"],
-            "status": "보유" if holding["owned"] else "관심종목",
-            "qty": holding["qty"], "avg_price": holding["avg_price"],
-            "volume_date": vol_date or "", "short_volume": vol,
-            "short_volume_5obs_pct": vol_change,
-            "balance_date": bal_date or "", "short_balance": bal,
-            "short_balance_5obs_pct": bal_change,
-            "price_date": close_date or "", "closing_price": close,
-            "price_5obs_pct": price_change,
-        })
-    holdings_df = pd.DataFrame(records)
-    volume_top = top_symbols_for_day(volume, VOLUME_COLUMNS, common_day)
-    balance_top = top_symbols_for_day(balance, BALANCE_COLUMNS, common_day)
+        sig = sigma_metrics(data["price"], holding)
+        vol, vol_date, vol_change = latest_metric(data["volume"], holding, ["CVSRTSELL_TRDVOL", "ACC_TRDVOL", "total_volume"])
+        bal, bal_date, bal_change = latest_metric(data["balance"], holding, ["BAL_QTY", "balance_qty"])
+        rows.append({**holding, **sig, "short_volume": vol, "volume_date": vol_date,
+                     "short_volume_5obs_pct": vol_change, "short_balance": bal,
+                     "balance_date": bal_date, "short_balance_5obs_pct": bal_change})
+    report = pd.DataFrame(rows)
+    OUTPUT.mkdir(parents=True, exist_ok=True)
+    report.to_csv(HOLDINGS_OUT, index=False, encoding="utf-8-sig")
 
-    lines = [
-        "KRX 보유종목 중심 분석", "=====================", "",
-        f"volume: {len(vd)}개 날짜, {len(volume):,}행 ({vs} ~ {ve})",
-        f"balance: {len(bd)}개 날짜, {len(balance):,}행 ({bs} ~ {be})",
-        f"price: {len(price_dates)}개 날짜, {len(prices):,}행 ({ps} ~ {pe})",
-        f"세 자료 공통 기준일: {common_day or '없음'}", "",
-        "[보유 종목별 현황]",
-        "보유 여부는 국내 DART 보유목록과 보유 수량/평단가가 설정된 국내 watchlist를 기준으로 표시합니다.",
-        "최근 5개 관측치 변화율은 해당 지표의 첫 관측값과 최신값 비교이며, 매매 신호가 아닙니다.",
-    ]
-    if holdings_df.empty:
-        lines.append("- 국내 보유종목 설정이 없습니다.")
-    else:
-        for row in holdings_df.itertuples(index=False):
-            # Always list every configured domestic holding; missing is not zero.
-            lines.append(
-                f"- {row.status} {row.symbol or '코드 미확인'} {row.name} | "
-                f"거래량 {fmt(row.short_volume)} ({row.volume_date or '날짜 없음'}, 5회 변화 {fmt(row.short_volume_5obs_pct, 1)}%) | "
-                f"잔고 {fmt(row.short_balance)} ({row.balance_date or '날짜 없음'}, 5회 변화 {fmt(row.short_balance_5obs_pct, 1)}%) | "
-                f"종가 {fmt(row.closing_price)} ({row.price_date or '날짜 없음'}, 5회 변화 {fmt(row.price_5obs_pct, 1)}%)"
-            )
-
-    lines.extend(["", f"[시장 전체 상위 종목 — 기준일 {common_day or '없음'}]"])
-    for title, frame in [("공매도 거래량 상위 10", volume_top), ("공매도 잔고 상위 10", balance_top)]:
-        lines.extend(["", f"{title}:"])
-        if frame.empty:
-            lines.append("- 자료 없음")
-        else:
-            for row in frame.itertuples(index=False):
-                lines.append(f"- {row.code} ({row.name}): {fmt(row.metric)}")
-    lines.extend([
-        "", "주의: 자료 없음은 0이 아니라 원자료에서 해당 종목/날짜를 찾지 못했다는 뜻입니다.",
-        "최신 잔고는 KRX 보고 지연으로 거래량·가격보다 늦을 수 있습니다.",
-        "공매도 거래량·잔고와 가격 변화만으로 매수·매도 결론을 내릴 수 없습니다.",
-    ])
-
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    SUMMARY_FILE.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    holdings_df.to_csv(HOLDINGS_CSV, index=False, encoding="utf-8-sig")
-    tops = []
-    for label, frame in [("volume", volume_top), ("balance", balance_top)]:
-        if not frame.empty:
-            output = frame.copy()
-            output["dataset"] = label
-            tops.append(output)
-    if tops:
-        pd.concat(tops, ignore_index=True).to_csv(TOP_CSV, index=False, encoding="utf-8-sig")
+    lines = ["# 보유종목 시그마 라인·공매도 통합 보고서", "",
+             "기준: KRX 저장 일봉 종가, 20거래일 이동평균 ±1σ/±2σ (모집단 표준편차, ddof=0).",
+             "종목별 수급(개인·기관·외국인)은 현재 이 보고서에 미연동이며, KRX 실시간 체결과 혼동하지 않습니다.",
+             "주식대차는 기준일 다음 영업일 갱신, 공매도 잔고는 T+2 지연 가능. 자료 없음은 0이 아닙니다.", "",
+             "| 구분 | 종목 | 기준일 | 종가 | −2σ | −1σ | 중심선 | +1σ | +2σ | z | 라인상태 | 공매도량 | 잔고 |",
+             "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|"]
+    for r in rows:
+        lines.append("| {status} | {name} ({symbol}) | {date} | {close} | {m2} | {m1} | {mean} | {p1} | {p2} | {z} | {event} | {vol} | {bal} |".format(
+            status="보유" if r["owned"] else "관심", name=r["name"], symbol=r["symbol"] or "코드 미확인",
+            date=r["sigma_date"] or "자료 없음", close=fmt(r["close"]), m2=fmt(r["minus2"]), m1=fmt(r["minus1"]),
+            mean=fmt(r["mean20"]), p1=fmt(r["plus1"]), p2=fmt(r["plus2"]), z=fmt(r["zscore"], 2),
+            event=r["line_event"], vol=fmt(r["short_volume"]), bal=fmt(r["short_balance"])))
+    lines.extend(["", "## 해석 기준", "- 라인상태는 통계적 가격 위치/교차 표시이며 매수·매도 지시가 아닙니다.",
+                  "- 공매도 거래량·잔고는 시장 전체의 데이터이며 외국인·기관·개인 투자자 구분이 아닙니다.",
+                  "- σ 계산은 20개 유효 일봉이 확보된 종목만 유효합니다. 휴장/결측은 0으로 채우지 않습니다.",
+                  "- 아직 NH investor flow, 신용잔고 및 투자자별 실시간 데이터는 연동하지 않았습니다."])
+    SUMMARY.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines), flush=True)
     return 0
 
