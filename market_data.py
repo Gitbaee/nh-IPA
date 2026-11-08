@@ -1,22 +1,34 @@
 #!/usr/bin/env python3
 """NH투자증권 Namuh PLUG 계좌/시세 조회.
 
-실제 API 경로와 필드는 NH 공식 nhplug SDK 예제에 맞춥니다.
-NH_CANO 또는 NH_ACCOUNT에는 계좌번호(계좌번호 전체)를 설정합니다.
+GitHub Actions에 기존 등록된 NH_APP_KEY / NH_APP_SECRET / NH_CANO를
+공식 nhplug SDK가 읽는 환경변수 이름으로 연결합니다. 시크릿은 출력하지 않습니다.
 """
 from __future__ import annotations
 
 import os
 from typing import Any, Dict, List
 
-from nhplug import call
+# SDK는 import 시 NHPLUG_* 환경변수를 읽으므로 반드시 import 전에 연결합니다.
+os.environ.setdefault("NHPLUG_APP_KEY", os.getenv("NH_APP_KEY", ""))
+os.environ.setdefault("NHPLUG_APP_SECRET", os.getenv("NH_APP_SECRET", ""))
 
-ACCOUNT = os.getenv("NH_CANO") or os.getenv("NH_ACCOUNT") or os.getenv("NHPLUG_DEFAULT_ACCOUNT")
+ACCOUNT = (
+    os.getenv("NH_CANO")
+    or os.getenv("NH_ACCOUNT")
+    or os.getenv("NHPLUG_DEFAULT_ACCOUNT")
+)
+if ACCOUNT:
+    os.environ.setdefault("NHPLUG_DEFAULT_ACCOUNT", ACCOUNT)
+
+from nhplug import call  # noqa: E402
 
 
 def _require_account() -> str:
     if not ACCOUNT:
-        raise RuntimeError("NH_CANO / NH_ACCOUNT / NHPLUG_DEFAULT_ACCOUNT 계좌번호 환경변수가 없습니다.")
+        raise RuntimeError(
+            "NH_CANO / NH_ACCOUNT / NHPLUG_DEFAULT_ACCOUNT 계좌번호 환경변수가 없습니다."
+        )
     return ACCOUNT
 
 
