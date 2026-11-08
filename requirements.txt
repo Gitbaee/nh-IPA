@@ -7,3 +7,4 @@ openpyxl
 yfinance
 pandas
 lxml
+nhplug>=0.4.2
