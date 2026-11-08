@@ -53,12 +53,16 @@ jobs:
           NHPLUG_DEFAULT_ACCOUNT: ${{ secrets.NHPLUG_DEFAULT_ACCOUNT || secrets.NH_CANO }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TELEGRAM_TOKEN || secrets.BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || secrets.CHAT_ID }}
-        run: python main.py --bollinger
+        run: |
+          python main.py --bollinger
+          python sigma_morning_report.py
 
       - name: Upload summary
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: nh-monitor-summary
-          path: output/summary.txt
+          path: |
+            output/summary.txt
+            output/sigma_morning_report.txt
           if-no-files-found: ignore
