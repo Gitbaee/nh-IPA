@@ -1,127 +1,66 @@
 #!/usr/bin/env python3
-"""
-market_data.py
+"""NH투자증권 Namuh PLUG 계좌/시세 조회.
 
-- fetch_realtime_tick: placeholder for KRX / NH integration
-- fetch_overseas_balance: NH overseas balance API skeleton
-- fetch_domestic_balance: NH domestic balance API skeleton
+실제 API 경로와 필드는 NH 공식 nhplug SDK 예제에 맞춥니다.
+NH_CANO 또는 NH_ACCOUNT에는 계좌번호(계좌번호 전체)를 설정합니다.
 """
 from __future__ import annotations
 
 import os
-import logging
 from typing import Any, Dict, List
 
-import requests
+from nhplug import call
 
-try:
-    from auth import get_token
-except Exception:
-    def get_token() -> str:
-        return "DUMMY"
-
-BASE_URL = os.getenv("NH_BASE_URL", "https://openapi.ebest.co.kr")
-HTTP_TIMEOUT = int(os.getenv("MARKET_DATA_HTTP_TIMEOUT", "10"))
+ACCOUNT = os.getenv("NH_CANO") or os.getenv("NH_ACCOUNT") or os.getenv("NHPLUG_DEFAULT_ACCOUNT")
 
 
-def fetch_realtime_tick(code: str) -> List[Dict[str, Any]]:
-    """
-    KRX / NH 실시간 틱 조회 자리표시자.
-    실제 구현을 여기에 붙이면 됩니다.
-    """
-    try:
-        token = get_token()
-        if not token:
-            return []
-        # TODO: add actual KRX/NH API call here
-        return []
-    except Exception:
-        logging.exception("fetch_realtime_tick error for %s", code)
-        return []
+def _require_account() -> str:
+    if not ACCOUNT:
+        raise RuntimeError("NH_CANO / NH_ACCOUNT / NHPLUG_DEFAULT_ACCOUNT 계좌번호 환경변수가 없습니다.")
+    return ACCOUNT
 
 
-def fetch_overseas_balance(exchange: str = "NASD") -> Dict[str, Any]:
-    """
-    NH 해외잔고 조회 예시.
-    UAPI docs vary by broker; this is a safe skeleton.
-    """
-    try:
-        token = get_token()
-        if not token:
-            return {"rt_cd": "1", "error": "no auth token"}
-
-        cano = os.getenv("NH_CANO") or os.getenv("NH_ACCOUNT")
-        acnt_prdt_cd = os.getenv("NH_ACNT_PRDT_CD", "01")
-        appkey = os.getenv("NH_APP_KEY")
-        appsecret = os.getenv("NH_APP_SECRET")
-
-        if not all([appkey, appsecret]):
-            logging.warning("NH_APP_KEY or NH_APP_SECRET not set")
-
-        url = f"{BASE_URL}/uapi/overseas-stock/v1/trading/inquire-balance"
-        headers = {
-            "authorization": f"Bearer {token}",
-            "appkey": appkey or "",
-            "appsecret": appsecret or "",
-            "tr_id": "TTTS3012R",
-            "Content-Type": "application/json",
-        }
-        params = {
-            "CANO": cano or "",
-            "ACNT_PRDT_CD": acnt_prdt_cd,
-            "OVRS_EXCG_CD": exchange,
-            "TR_CRCY_CD": os.getenv("NH_TR_CRCY_CD", "USD"),
-            "CTX_AREA_FK200": "",
-            "CTX_AREA_NK200": "",
-        }
-
-        resp = requests.get(url, headers=headers, params=params, timeout=HTTP_TIMEOUT)
-        if resp.status_code != 200:
-            logging.error("overseas balance HTTP %s: %s", resp.status_code, resp.text)
-            return {"rt_cd": str(resp.status_code), "error": resp.text}
-
-        try:
-            data = resp.json()
-        except ValueError:
-            return {"rt_cd": "1", "error": "invalid json response", "text": resp.text}
-
-        if isinstance(data, dict):
-            if "holdings" in data:
-                return data
-            if "balance" in data and isinstance(data["balance"], dict) and "holdings" in data["balance"]:
-                return {
-                    "rt_cd": data.get("rt_cd", "0"),
-                    "msg": data.get("msg", ""),
-                    "holdings": data["balance"].get("holdings", []),
-                }
-            if "output1" in data and isinstance(data["output1"], list):
-                return {
-                    "rt_cd": data.get("rt_cd", "0"),
-                    "msg": data.get("msg", ""),
-                    "holdings": data["output1"],
-                }
-        if isinstance(data, list):
-            return {"rt_cd": "0", "holdings": data}
-
-        return {"rt_cd": "0", "data": data}
-    except requests.RequestException as re:
-        logging.exception("HTTP error fetching overseas balance")
-        return {"rt_cd": "1", "error": str(re)}
-    except Exception as e:
-        logging.exception("Unexpected error in fetch_overseas_balance")
-        return {"rt_cd": "1", "error": str(e)}
+def _response(data: Any) -> Dict[str, Any]:
+    """SDK 응답을 원본을 유지한 채 dict로 반환."""
+    return data if isinstance(data, dict) else {"data": data}
 
 
-def fetch_domestic_balance() -> Dict[str, Any]:
-    """국내 balance API skeleton."""
-    try:
-        token = get_token()
-        headers = {
-            "authorization": f"Bearer {token}",
-            "appkey": os.getenv("NH_APP_KEY"),
-            "appsecret": os.getenv("NH_APP_SECRET"),
-            "tr_id": "TTTC8434R",
-        }
-        return {"rt_cd": "0", "msg": "domestic API ready"}
-    except Exception as e:
-        return {"error": str(e)}
+def fetch_domestic_balance(qut_dit_cd: str = "UNT", aly_qut_cd: str = "1") -> Dict[str, Any]:
+    """국내주식 잔고. aly_qut_cd: 1=정규장, 2=전체장."""
+    result = call("/krstock/inquiry/v1/balance", {
+        "act_no": _require_account(),
+        "bnc_bse_cd": "5",
+        "ltg_aot_dit_cd": "9",
+        "aet_bse": "2",
+        "qut_dit_cd": qut_dit_cd,
+        "aly_qut_cd": aly_qut_cd,
+    })
+    return _response(result)
+
+
+def fetch_overseas_balance(nat_cd: str = "200", cur_cd: str = "USD") -> Dict[str, Any]:
+    """해외주식 잔고. nat_cd 200=미국, cur_cd USD."""
+    result = call("/gbstock/inquiry/v1/balance", {
+        "act_no": _require_account(),
+        "qut_iqr_dit_cd": "9",
+        "fc_sec_trd_nat_cd": nat_cd,
+        "cur_cd": cur_cd,
+        "xns_dit_cd": "1",
+    })
+    return _response(result)
+
+
+def fetch_realtime_tick(code: str, market_cd: str = "UNT") -> List[Dict[str, Any]]:
+    """REST 현재가 조회 (실시간 WebSocket 틱 스트림과는 구분)."""
+    result = call("/krstock/quote/v1/currentPrice", {
+        "iem_cd": code,
+        "market_cd": market_cd,
+    })
+    if not isinstance(result, dict):
+        return [{"data": result}]
+    output = result.get("Output_0")
+    if isinstance(output, list):
+        return output
+    if isinstance(output, dict):
+        return [output]
+    return [result]
