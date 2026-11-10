@@ -28,7 +28,8 @@ except Exception:
         return "DUMMY"
 
 try:
-    from market_data import fetch_realtime_tick, fetch_overseas_balance
+    from market_data import fetch_realtime_tick
+    from sigma_morning_report import fetch_account_holdings
 except Exception:
     def fetch_realtime_tick(code: str) -> List[Dict[str, Any]]:
         return []
@@ -158,107 +159,87 @@ def update_avg_from_brokerage(cfg: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def run_bollinger_with_avg(cfg_path: str = "config/bollinger_watchlist.json", save_updates: bool = False) -> List[str]:
+    """Scan only current NH account positions; static watchlists are never substituted."""
     try:
         import yfinance as yf
     except Exception:
         return ["yfinance 패키지가 없습니다. 설치하세요: pip install yfinance"]
 
-    alerts: List[str] = []
-    if not os.path.exists(cfg_path):
-        return [f"{os.path.basename(cfg_path)} 없음"]
+    try:
+        positions = fetch_account_holdings()
+    except Exception as exc:
+        logging.exception("NH account holdings lookup failed")
+        return [f"NH 실제 계좌 잔고 조회 실패: {str(exc)[:160]} — 고정 관심종목 스캔은 실행하지 않았습니다."]
 
-    with open(cfg_path, encoding="utf-8") as f:
-        cfg = json.load(f)
+    if not positions:
+        return ["NH 계좌 잔고 조회는 성공했으나 보유 종목이 0개입니다. 고정 관심종목 스캔은 실행하지 않았습니다."]
 
-    cfg = update_avg_from_brokerage(cfg)
-
-    if save_updates:
-        try:
-            with open(cfg_path, "w", encoding="utf-8") as f:
-                json.dump(cfg, f, ensure_ascii=False, indent=2)
-            logging.info("Saved brokerage-updated config to %s", cfg_path)
-        except Exception:
-            logging.exception("Failed to save updated config to %s", cfg_path)
-
-    for s in cfg.get("symbols", [])[:100]:
+    alerts: List[str] = [f"NH 실제 계좌 기준 스캔: 국내·해외 {len(positions)}종목"]
+    for s in positions:
         sym = s.get("symbol")
         name = s.get("name", sym)
         avg = parse_number(s.get("avg_price"))
-        if sym is None:
+        if not sym:
             continue
 
         try:
-            ysym = sym
-            m = s.get("market", "KR")
-
-            if str(sym).startswith("^"):
-                ysym = sym
-            elif m == "INDEX" and s.get("yahoo"):
-                ysym = s.get("yahoo")
-            elif str(m).upper() == "KR":
-                if "." not in str(sym) and not str(sym).isalpha():
-                    ysym = f"{sym}.KS"
-                elif "." not in str(sym) and str(sym).isalpha() and len(str(sym)) <= 5:
-                    pass
-                elif "." not in str(sym):
-                    ysym = f"{sym}.KS"
-
-            if str(sym) == "BRK.B":
-                ysym = "BRK-B"
+            ysym = str(sym)
+            market = str(s.get("market", "KR")).upper()
+            if market == "KR":
+                ysym = f"{ysym}.KS"
 
             df = yf.download(ysym, period="1mo", interval="1d", progress=False, auto_adjust=True)
             if df is None or len(df) < 20:
+                alerts.append(f"[{name} {sym}] 최근 20거래일 가격자료 부족")
                 continue
-
             if "Close" not in df.columns:
+                alerts.append(f"[{name} {sym}] 종가 열을 찾을 수 없음")
                 continue
 
-            price = float(df["Close"].iloc[-1])
+            close_series = df["Close"]
+            if getattr(close_series, "ndim", 1) == 2:
+                close_series = close_series.iloc[:, 0]
+            price = float(close_series.iloc[-1])
             if not math.isfinite(price):
+                alerts.append(f"[{name} {sym}] 현재 종가가 유효하지 않음")
                 continue
 
-            ma = float(df["Close"].rolling(20).mean().iloc[-1])
-            std = float(df["Close"].rolling(20).std().iloc[-1])
+            ma = float(close_series.rolling(20).mean().iloc[-1])
+            std = float(close_series.rolling(20).std(ddof=0).iloc[-1])
             lower = ma - 2 * std
             upper = ma + 2 * std
 
-            if "Volume" in df.columns:
-                vol_today = float(df["Volume"].iloc[-1])
-                vol_avg = float(df["Volume"].rolling(20).mean().iloc[-1])
+            volume_series = df["Volume"] if "Volume" in df.columns else None
+            if volume_series is not None and getattr(volume_series, "ndim", 1) == 2:
+                volume_series = volume_series.iloc[:, 0]
+            if volume_series is not None:
+                vol_today = float(volume_series.iloc[-1])
+                vol_avg = float(volume_series.rolling(20).mean().iloc[-1])
                 vol_ratio = vol_today / vol_avg if vol_avg > 0 else 0.0
             else:
-                vol_today = 0.0
-                vol_avg = 0.0
-                vol_ratio = 0.0
+                vol_today = vol_avg = vol_ratio = 0.0
 
             if price <= lower * 1.02:
-                alerts.append(f"🔵 [{name} {sym}] 볼린저 하단 터치 {price:.0f} (하단 {lower:.0f})")
+                alerts.append(f"🔵 [{name} {sym}] 볼린저 하단 터치 {price:.2f} (하단 {lower:.2f})")
             if price >= upper * 0.98:
-                alerts.append(f"🔴 [{name} {sym}] 볼린저 상단 터치 {price:.0f} (상단 {upper:.0f})")
+                alerts.append(f"🔴 [{name} {sym}] 볼린저 상단 터치 {price:.2f} (상단 {upper:.2f})")
 
             if vol_ratio >= 2.0:
-                alerts.append(
-                    f"💥 [{name} {sym}] 수급량 폭증! 거래량 {vol_ratio:.1f}배 {vol_today:,.0f}주 "
-                    f"(평균 {vol_avg:,.0f}) 현재가 {price:.0f}"
-                )
+                alerts.append(f"💥 [{name} {sym}] 거래량 {vol_ratio:.1f}배 {vol_today:,.0f}주 (20일 평균 {vol_avg:,.0f})")
             elif vol_ratio >= 1.5:
-                alerts.append(
-                    f"📊 [{name} {sym}] 수급량 증가 {vol_ratio:.1f}배 {vol_today:,.0f}주 현재가 {price:.0f}"
-                )
+                alerts.append(f"📊 [{name} {sym}] 거래량 증가 {vol_ratio:.1f}배 {vol_today:,.0f}주")
 
             if avg is not None and avg != 0:
                 pct = (price - avg) / avg * 100
                 if abs(pct) >= 5:
                     emo = "📈" if pct > 0 else "📉"
-                    alerts.append(
-                        f"{emo} [{name}] 평단 {avg} 대비 {pct:+.2f}% -> 현재 {price:.0f} ({s.get('qty', '')}주)"
-                    )
+                    alerts.append(f"{emo} [{name}] 평단 {avg:,.2f} 대비 {pct:+.2f}% → 현재 {price:.2f} ({s.get('qty', '')}주)")
                 elif abs(pct) >= 4.5:
-                    alerts.append(f"⚠️ [{name}] -5% 직전 {pct:+.2f}% 현재 {price:.0f}")
+                    alerts.append(f"⚠️ [{name}] -5% 직전 {pct:+.2f}% 현재 {price:.2f}")
 
-        except Exception:
-            logging.exception("Error processing symbol %s", sym)
-            alerts.append(f"[{sym}] 에러: {traceback.format_exc().splitlines()[-1]}")
+        except Exception as exc:
+            logging.exception("Error processing account position %s", sym)
+            alerts.append(f"[{name} {sym}] 가격 분석 오류: {str(exc)[:120]}")
 
     return alerts
 
