@@ -47,10 +47,11 @@ jobs:
           NH_APP_KEY: ${{ secrets.NH_APP_KEY }}
           NH_APP_SECRET: ${{ secrets.NH_APP_SECRET }}
           NH_CANO: ${{ secrets.NH_CANO }}
+          NH_ACCOUNT: ${{ secrets.NH_ACCOUNT }}
           NH_ACNT_PRDT_CD: ${{ secrets.NH_ACNT_PRDT_CD }}
           NHPLUG_APP_KEY: ${{ secrets.NHPLUG_APP_KEY || secrets.NH_APP_KEY }}
           NHPLUG_APP_SECRET: ${{ secrets.NHPLUG_APP_SECRET || secrets.NH_APP_SECRET }}
-          NHPLUG_DEFAULT_ACCOUNT: ${{ secrets.NHPLUG_DEFAULT_ACCOUNT || secrets.NH_CANO }}
+          NHPLUG_DEFAULT_ACCOUNT: ${{ secrets.NHPLUG_DEFAULT_ACCOUNT || secrets.NH_CANO || secrets.NH_ACCOUNT }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TELEGRAM_TOKEN || secrets.BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || secrets.CHAT_ID }}
         run: python main.py --bollinger
@@ -61,10 +62,11 @@ jobs:
           NH_APP_KEY: ${{ secrets.NH_APP_KEY }}
           NH_APP_SECRET: ${{ secrets.NH_APP_SECRET }}
           NH_CANO: ${{ secrets.NH_CANO }}
+          NH_ACCOUNT: ${{ secrets.NH_ACCOUNT }}
           NH_ACNT_PRDT_CD: ${{ secrets.NH_ACNT_PRDT_CD }}
           NHPLUG_APP_KEY: ${{ secrets.NHPLUG_APP_KEY || secrets.NH_APP_KEY }}
           NHPLUG_APP_SECRET: ${{ secrets.NHPLUG_APP_SECRET || secrets.NH_APP_SECRET }}
-          NHPLUG_DEFAULT_ACCOUNT: ${{ secrets.NHPLUG_DEFAULT_ACCOUNT || secrets.NH_CANO }}
+          NHPLUG_DEFAULT_ACCOUNT: ${{ secrets.NHPLUG_DEFAULT_ACCOUNT || secrets.NH_CANO || secrets.NH_ACCOUNT }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TELEGRAM_TOKEN || secrets.BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || secrets.CHAT_ID }}
         run: python sigma_morning_report.py
