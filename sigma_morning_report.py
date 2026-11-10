@@ -61,6 +61,7 @@ def fetch_account_holdings() -> list[dict]:
             "name": _first(row, ("iem_nm", "prdt_name", "isu_nm"), code),
             "market": "KR",
             "qty": qty,
+            "avg_price": _first(row, ("pchs_avg_pric", "pchs_avg_price", "avg_price")),
         })
 
     for row in _rows(overseas, "해외"):
@@ -80,6 +81,7 @@ def fetch_account_holdings() -> list[dict]:
             "name": _first(row, ("iem_nm", "ovrs_item_name", "prdt_name", "name"), code),
             "market": "US",
             "qty": qty,
+            "avg_price": _first(row, ("pchs_avg_pric", "pchs_avg_price", "avg_price")),
         })
 
     # De-duplicate by market + symbol while retaining the first account row.
